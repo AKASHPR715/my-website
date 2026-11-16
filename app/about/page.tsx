@@ -1,17 +1,17 @@
+import { Metadata } from "next";
 import AboutSection from "@/components/about/AboutSection";
 import SkillsGrid from "@/components/skills/SkillsGrid";
 import CertificationsList from "@/components/certifications/CertificationsList";
-import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About Akash PR | Automation Engineer & AI Specialist",
+  title: "About & Background",
   description:
-    "Professional background, career timeline, education, and technical ethos of Akash PR, Automation Engineer at Equifax with expertise in AI agents and data science.",
+    "Professional background, career chronology, education, and technical orientations of Akash PR, Automation Engineer at Equifax.",
 };
 
 export default function AboutPage() {
   return (
-    <div className="pt-20">
+    <div className="pt-20 bg-[#121316] min-h-screen">
       <AboutSection />
       <SkillsGrid />
       <CertificationsList />

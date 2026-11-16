@@ -8,10 +8,7 @@ import {
   Calculator, 
   Bot, 
   FileCheck, 
-  ArrowRight, 
-  CheckCircle2, 
-  Sparkles,
-  Info
+  Info 
 } from "lucide-react";
 
 export default function TaxMateArchitecture() {
@@ -22,135 +19,121 @@ export default function TaxMateArchitecture() {
       id: 1,
       title: "Document Upload",
       type: "Integration",
-      typeClass: "bg-blue-500/10 text-blue-400 border-blue-500/30",
       isDeterministic: true,
       icon: FileUp,
       tech: "FastAPI / PyMuPDF",
-      description: "Secure intake of Form 16 (Part A & B), AIS (Annual Information Statement), and Form 26AS tax credit statements in PDF format.",
-      details: "Performs cryptographic checksums, checks MIME types, verifies uncorrupted text streams, and normalizes DPI resolution.",
+      description: "Secure intake of Form 16 (Part A & B), AIS, and Form 26AS statements in PDF format.",
+      details: "Performs checksum verification, MIME-type assertions, and DPI text stream normalization.",
     },
     {
       id: 2,
       title: "Document Extraction",
-      type: "Probabilistic LLM",
-      typeClass: "bg-purple-500/10 text-purple-400 border-purple-500/30",
+      type: "Probabilistic Parser",
       isDeterministic: false,
       icon: Binary,
-      tech: "Structured JSON Parsing / LLMs",
-      description: "Extracts gross salary, allowances under Section 10, employer TDS, and bank savings interest into structured schema.",
-      details: "Translates unstructured employer table variations into standardized JSON entities, handling multi-employer transitions gracefully.",
+      tech: "Pydantic / LLM Schema Normalizer",
+      description: "Extracts gross salary, exemptions under Sec 10, employer TDS, and interest income into structured schema.",
+      details: "Translates varying employer layout tables into validated Pydantic models with graceful fallbacks.",
     },
     {
       id: 3,
-      title: "Validation & Cross-Check",
+      title: "Cross-Reconciliation",
       type: "Deterministic Rule",
-      typeClass: "bg-emerald-500/10 text-emerald-400 border-emerald-500/30",
       isDeterministic: true,
       icon: ShieldCheck,
-      tech: "Cross-Reconciliation Engine",
-      description: "Cross-references TDS reported in Form 16 against actual tax credits deposited in Form 26AS with 0% tolerance for mismatch.",
-      details: "Flags discrepancy notices before submission to prevent defective return notices under Section 139(9).",
+      tech: "Python Reconciliation Engine",
+      description: "Cross-references TDS reported in Form 16 against actual tax credits deposited in Form 26AS.",
+      details: "Flags discrepancy mismatches before calculation to prevent ITD defective return notices under Sec 139(9).",
     },
     {
       id: 4,
       title: "Tax Computation Engine",
-      type: "Pure Deterministic Math",
-      typeClass: "bg-sky-500/10 text-sky-400 border-sky-500/30",
+      type: "Deterministic Math",
       isDeterministic: true,
       icon: Calculator,
-      tech: "Indian Tax Slab Rule Engine (Python)",
-      description: "Computes exact tax liability under Old Regime vs New Regime (Sec 115BAC), Chapter VI-A deductions, Sec 87A rebate, and 4% cess.",
-      details: "Probabilistic LLMs are banned from running arithmetic. Hardcoded Python functions guarantee 100% mathematical precision.",
+      tech: "Rule-Based Python Slab Calculator",
+      description: "Computes exact tax liability under Old Regime vs New Regime (Sec 115BAC), Chapter VI-A deductions, and 4% cess.",
+      details: "Probabilistic LLMs are banned from running arithmetic. Pure Python mathematical functions guarantee 100% precision.",
     },
     {
       id: 5,
       title: "RAG Advisory Engine",
-      type: "Probabilistic AI / RAG",
-      typeClass: "bg-purple-500/10 text-purple-400 border-purple-500/30",
+      type: "Probabilistic RAG",
       isDeterministic: false,
       icon: Bot,
-      tech: "LangGraph / FAISS / Tax Law Index",
-      description: "Conversational advisor explains the Old vs New regime decision, recommends unutilized 80C/80D avenues, and answers user queries.",
-      details: "Grounds conversational responses in statutory IT department circulars, preventing regulatory hallucinations.",
+      tech: "LangGraph / FAISS / Tax Index",
+      description: "Conversational advisor explains regime differences and recommends unutilized 80C/80D avenues.",
+      details: "Retrieves statutory provisions from the official Income Tax Act circulars index.",
     },
     {
       id: 6,
-      title: "ITR Schema Generation",
-      type: "Deterministic Compilation",
-      typeClass: "bg-emerald-500/10 text-emerald-400 border-emerald-500/30",
+      title: "ITR Schema Compiler",
+      type: "Deterministic Compiler",
       isDeterministic: true,
       icon: FileCheck,
       tech: "Pydantic / Official ITR-1 Schema",
-      description: "Generates official, schema-validated JSON payload compliant with the Income Tax Department e-filing utility.",
-      details: "Passes JSON schema assertion tests, ensuring immediate acceptance by government filing gateways.",
+      description: "Compiles validated tax return into schema-compliant JSON format ready for portal upload.",
+      details: "Asserts against official ITD e-filing JSON specifications.",
     },
   ];
 
   const currentStep = steps.find((s) => s.id === activeStep) || steps[3];
 
   return (
-    <div className="p-6 rounded-2xl bg-[#0a0f1d] border border-white/10 shadow-2xl my-6">
+    <div className="p-4 sm:p-5 rounded bg-[#181a1f] border border-[#262930] space-y-4">
       {/* Diagram Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-6 border-b border-white/[0.08] gap-2">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#262930] gap-2">
         <div>
-          <div className="flex items-center space-x-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-sky-400 animate-pulse"></span>
-            <span className="font-mono text-xs font-bold text-white uppercase tracking-wider">
-              Interactive System Architecture
-            </span>
+          <div className="text-[11px] font-mono text-amber">
+            [INTERACTIVE BLUEPRINT // TAXMATE ARCHITECTURE]
           </div>
-          <p className="text-xs text-slate-400 mt-1 font-mono">
-            Neuro-Symbolic Pipeline: Click any stage to inspect deterministic vs probabilistic boundary
-          </p>
+          <div className="text-xs font-semibold text-white mt-0.5">
+            Neuro-Symbolic Boundary: Probabilistic Extraction &rarr; Deterministic Slabs
+          </div>
         </div>
 
         {/* Legend */}
         <div className="flex items-center space-x-3 text-[10px] font-mono">
-          <span className="flex items-center gap-1.5 text-sky-400">
-            <span className="w-2 h-2 rounded bg-sky-500"></span> Deterministic Rule
+          <span className="flex items-center gap-1 text-slate-300">
+            <span className="w-2 h-2 rounded-sm bg-signal-green inline-block"></span> Deterministic
           </span>
-          <span className="flex items-center gap-1.5 text-purple-400">
-            <span className="w-2 h-2 rounded bg-purple-500"></span> Probabilistic LLM
+          <span className="flex items-center gap-1 text-amber">
+            <span className="w-2 h-2 rounded-sm bg-amber inline-block"></span> Probabilistic
           </span>
         </div>
       </div>
 
-      {/* Horizontal Pipeline Sequence */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 mb-6">
-        {steps.map((st, idx) => {
-          const Icon = st.icon;
+      {/* 6-Stage Stepper Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-1.5">
+        {steps.map((st) => {
           const isSelected = activeStep === st.id;
-
           return (
             <button
               key={st.id}
               onClick={() => setActiveStep(st.id)}
-              className={`p-3 rounded-xl border text-left transition-all relative flex flex-col justify-between ${
+              className={`p-2.5 rounded border text-left transition-colors flex flex-col justify-between min-h-[95px] ${
                 isSelected
-                  ? "bg-sky-950/40 border-sky-400 shadow-lg shadow-sky-500/20 -translate-y-1"
-                  : "bg-[#0f172a] border-white/[0.06] hover:border-white/20 hover:bg-[#131d33]"
+                  ? "bg-[#22252c] border-amber text-white"
+                  : "bg-[#121316] border-[#262930] text-slate-400 hover:text-slate-200 hover:border-slate-600"
               }`}
             >
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-mono text-[10px] text-slate-400 font-bold">
+              <div className="flex items-center justify-between mb-1">
+                <span className={`text-[10px] font-mono ${isSelected ? "text-amber font-semibold" : "text-slate-400"}`}>
                   0{st.id}
                 </span>
                 <span
-                  className={`text-[8px] font-mono px-1.5 py-0.5 rounded border ${st.typeClass}`}
+                  className={`text-[8px] font-mono px-1 py-0.5 rounded border ${
+                    st.isDeterministic
+                      ? "text-signal-green border-signal-greenBorder bg-signal-greenSubtle"
+                      : "text-amber border-amber-border bg-amber-subtle"
+                  }`}
                 >
                   {st.isDeterministic ? "DET" : "PROB"}
                 </span>
               </div>
 
-              <div className="flex items-center space-x-2 my-1">
-                <Icon
-                  className={`w-4 h-4 ${
-                    isSelected ? "text-sky-400" : "text-slate-400"
-                  }`}
-                />
-                <span className="text-xs font-bold text-white line-clamp-1">
-                  {st.title}
-                </span>
+              <div className={`text-xs font-semibold leading-tight line-clamp-1 ${isSelected ? "text-white" : "text-slate-300"}`}>
+                {st.title}
               </div>
 
               <span className="text-[9px] font-mono text-slate-400 truncate mt-1">
@@ -161,39 +144,23 @@ export default function TaxMateArchitecture() {
         })}
       </div>
 
-      {/* Deep-Dive Stage Inspector */}
-      <div className="p-4 sm:p-5 rounded-xl bg-[#0d1424] border border-sky-500/30">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 mb-3 border-b border-white/[0.06]">
-          <div className="flex items-center space-x-3">
-            <span className="w-7 h-7 rounded-lg bg-sky-500/10 border border-sky-500/30 flex items-center justify-center font-mono text-xs font-bold text-sky-400">
-              0{currentStep.id}
-            </span>
-            <div>
-              <h4 className="text-sm font-bold text-white">
-                {currentStep.title}
-              </h4>
-              <span className="text-xs font-mono text-sky-400">
-                Component: {currentStep.tech}
-              </span>
-            </div>
+      {/* Step Inspector Panel */}
+      <div className="p-4 rounded bg-[#121316] border border-[#262930] space-y-2">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 pb-2 border-b border-[#262930]">
+          <div className="text-xs font-semibold text-white">
+            Stage 0{currentStep.id}: {currentStep.title} ({currentStep.tech})
           </div>
-
-          <div className="flex items-center space-x-2">
-            <span
-              className={`text-xs font-mono px-2.5 py-1 rounded-md border ${currentStep.typeClass}`}
-            >
-              {currentStep.type}
-            </span>
-          </div>
+          <span className="text-[10px] font-mono text-slate-400">
+            Execution Class: {currentStep.type}
+          </span>
         </div>
 
-        <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-3">
+        <p className="text-xs text-slate-300 leading-relaxed">
           {currentStep.description}
         </p>
 
-        <div className="p-3 rounded-lg bg-black/40 border border-white/[0.05] text-xs font-mono text-slate-300 flex items-start space-x-2">
-          <Info className="w-4 h-4 text-sky-400 shrink-0 mt-0.5" />
-          <span>{currentStep.details}</span>
+        <div className="p-2.5 rounded bg-[#181a1f] border border-[#262930] text-[11px] font-mono text-slate-400">
+          <strong className="text-slate-300">Technical Assertion:</strong> {currentStep.details}
         </div>
       </div>
     </div>

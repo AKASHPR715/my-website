@@ -1,16 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { 
-  Sparkles, 
-  Workflow, 
-  Bot, 
-  BarChart3, 
-  Layers, 
-  Cpu, 
-  Info,
-  Terminal
-} from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import RagVisualizer from "./RagVisualizer";
 import AgentWorkflowSimulator from "./AgentWorkflowSimulator";
 import DataScienceExplorer from "./DataScienceExplorer";
@@ -19,65 +10,61 @@ export default function EngineeringLab() {
   const [activeTab, setActiveTab] = useState<"rag" | "agent" | "datascience">("rag");
 
   return (
-    <section id="lab" className="py-20 relative bg-[#070b14] border-t border-white/[0.06]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="lab" className="py-16 sm:py-20 border-t border-[#262930] bg-[#121316]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-[#262930]">
           <div>
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-md bg-sky-500/10 border border-sky-500/20 text-sky-400 font-mono text-xs mb-3">
-              <Terminal className="w-3.5 h-3.5" />
-              <span>TECHNICAL DIFFERENTIATOR &bull; LIVE SANDBOX</span>
+            <div className="text-xs font-mono text-amber tracking-tight mb-2">
+              [LABORATORY // INTERACTIVE DEMONSTRATIONS]
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-white tracking-tight">
-              Inside My Engineering Lab
+            <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+              Three things I built to understand how this stuff actually works
             </h2>
-            <p className="text-slate-400 text-sm sm:text-base max-w-2xl mt-2 font-mono">
-              Interactive demonstrations exposing the underlying mechanics of retrieval-augmented generation, multi-agent state machines, and predictive data clustering.
+            <p className="text-slate-400 text-sm max-w-2xl mt-2 leading-relaxed">
+              Real code architecture broken down into interactive components: retrieval-augmented generation, multi-agent state machines, and feature-driven classification.
             </p>
           </div>
 
           {/* Tab Selector Buttons */}
-          <div className="flex flex-wrap gap-2 p-1.5 rounded-xl bg-[#0c1220] border border-white/[0.08]">
+          <div className="flex flex-wrap gap-1 p-1 bg-[#181a1f] border border-[#262930] rounded">
             <button
               onClick={() => setActiveTab("rag")}
-              className={`flex items-center space-x-2 px-3.5 py-2 rounded-lg text-xs font-mono transition-all ${
+              className={`px-3 py-1.5 text-xs font-medium rounded transition-colors ${
                 activeTab === "rag"
-                  ? "bg-sky-500 text-slate-950 font-bold shadow-md shadow-sky-500/20"
-                  : "text-slate-300 hover:text-white hover:bg-white/[0.04]"
+                  ? "bg-[#22252c] text-amber border border-amber/40"
+                  : "text-slate-400 hover:text-white hover:bg-[#22252c]"
               }`}
             >
-              <Workflow className="w-3.5 h-3.5" />
-              <span>Demo A: RAG Pipeline</span>
+              01 // RAG Pipeline
             </button>
 
             <button
               onClick={() => setActiveTab("agent")}
-              className={`flex items-center space-x-2 px-3.5 py-2 rounded-lg text-xs font-mono transition-all ${
+              className={`px-3 py-1.5 text-xs font-medium rounded transition-colors ${
                 activeTab === "agent"
-                  ? "bg-sky-500 text-slate-950 font-bold shadow-md shadow-sky-500/20"
-                  : "text-slate-300 hover:text-white hover:bg-white/[0.04]"
+                  ? "bg-[#22252c] text-amber border border-amber/40"
+                  : "text-slate-400 hover:text-white hover:bg-[#22252c]"
               }`}
             >
-              <Bot className="w-3.5 h-3.5" />
-              <span>Demo B: AI Agent Workflow</span>
+              02 // Multi-Agent State Machine
             </button>
 
             <button
               onClick={() => setActiveTab("datascience")}
-              className={`flex items-center space-x-2 px-3.5 py-2 rounded-lg text-xs font-mono transition-all ${
+              className={`px-3 py-1.5 text-xs font-medium rounded transition-colors ${
                 activeTab === "datascience"
-                  ? "bg-sky-500 text-slate-950 font-bold shadow-md shadow-sky-500/20"
-                  : "text-slate-300 hover:text-white hover:bg-white/[0.04]"
+                  ? "bg-[#22252c] text-amber border border-amber/40"
+                  : "text-slate-400 hover:text-white hover:bg-[#22252c]"
               }`}
             >
-              <BarChart3 className="w-3.5 h-3.5" />
-              <span>Demo C: Data Science Explorer</span>
+              03 // Data Science Predictor
             </button>
           </div>
         </div>
 
         {/* Tab Content Display */}
-        <div className="transition-all duration-300">
+        <div>
           {activeTab === "rag" && <RagVisualizer />}
           {activeTab === "agent" && <AgentWorkflowSimulator />}
           {activeTab === "datascience" && <DataScienceExplorer />}

@@ -1,30 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { 
-  Play, 
-  RotateCcw, 
-  Bot, 
-  Cpu, 
-  Search, 
-  CheckCircle2, 
-  Terminal, 
-  ArrowRight, 
-  Sparkles,
-  Layers,
-  FileCheck
-} from "lucide-react";
+import { Play, RotateCcw, ArrowUpRight } from "lucide-react";
 
-interface WorkflowStep {
-  nodeId: string;
-  name: string;
-  role: string;
-  state: "idle" | "active" | "completed";
-  thought: string;
-  toolCall?: string;
-}
-
-// Static presets defined outside component to maintain stable references
 const PRESETS = [
   {
     title: "TaxMate: Multi-Agent Tax Advisory & Filing",
@@ -32,21 +10,21 @@ const PRESETS = [
     nodes: [
       {
         id: "intake",
-        name: "User Request Ingestion",
-        role: "Gateway",
+        name: "Request Ingestion",
+        role: "API Gateway",
         thought: "Sanitizing user query, verifying authenticated session, validating document tokens.",
         toolCall: "session_verifier(user_id='USR_882', doc_ids=['F16_A', '26AS'])",
       },
       {
         id: "orchestrator",
-        name: "LangGraph Orchestrator",
-        role: "State Router",
+        name: "LangGraph Router",
+        role: "State Coordinator",
         thought: "Decomposing task: Route to Extraction -> Deterministic Math Engine -> RAG Advisor.",
         toolCall: "state_graph.route(state='EXTRACTION_AND_MATH')",
       },
       {
         id: "research",
-        name: "Extraction & Retrieval Agent",
+        name: "Extraction Agent",
         role: "Document Parser",
         thought: "Parsed Form 16 salary (INR 14,50,000) and verified INR 1,82,000 TDS deposited in Form 26AS.",
         toolCall: "pdf_extractor(mode='structured_pydantic')",
@@ -60,9 +38,9 @@ const PRESETS = [
       },
       {
         id: "response",
-        name: "Response Synthesizer",
-        role: "Artifact Generator",
-        thought: "Compiling comprehensive comparative summary and generating official ITR-1 JSON schema.",
+        name: "Artifact Synthesizer",
+        role: "Schema Compiler",
+        thought: "Compiling comparative summary and generating official ITR-1 JSON schema.",
         toolCall: "schema_generator.compile_itr1(status='OPTIMAL_NEW_REGIME')",
       },
     ],
@@ -74,48 +52,48 @@ const PRESETS = [
     },
   },
   {
-    title: "Teams Intelligence: Thread to Task Sync",
+    title: "Teams Intelligence: Channel Thread to Task Sync",
     userQuery: "Scan #core-engineering channel history from yesterday and sync all action items to Microsoft To Do.",
     nodes: [
       {
         id: "intake",
         name: "Teams Query Receiver",
-        role: "Trigger",
+        role: "Scheduled Trigger",
         thought: "Received scheduled daily trigger to parse channel ID: ch-9941 (Engineering Release).",
         toolCall: "ms_graph.get_delta_messages(channel_id='ch-9941', lookback_hours=24)",
       },
       {
         id: "orchestrator",
-        name: "Conversation Orchestrator",
-        role: "Thread Parser",
+        name: "Thread Parser",
+        role: "Sanitizer",
         thought: "Cleaned 48 raw Teams messages, filtered chat banter, constructed chronological reply hierarchies.",
         toolCall: "thread_sanitizer.parse_replies(raw_messages=48)",
       },
       {
         id: "research",
         name: "Action Item Extractor",
-        role: "Semantic AI",
+        role: "Semantic Classifier",
         thought: "Extracted 3 actionable commitments: [1] Fix Swagger auth headers, [2] Benchmark LlamaGuard, [3] Deploy staging build.",
         toolCall: "nlp.extract_action_items(confidence_threshold=0.88)",
       },
       {
         id: "analysis",
-        name: "Priority & Assignee Resolver",
-        role: "Entity Matcher",
+        name: "Entity Resolver",
+        role: "Assignee Matcher",
         thought: "Mapped user tags (@alex, @priya) to Azure AD email accounts and assigned due dates.",
         toolCall: "azure_ad.resolve_users(tags=['@alex', '@priya'])",
       },
       {
         id: "response",
-        name: "Microsoft To Do Sync Agent",
-        role: "Task Writer",
+        name: "Microsoft To Do Writer",
+        role: "Task Sync Agent",
         thought: "Injected 3 prioritized tasks into Microsoft To Do with deep links back to Teams conversation.",
         toolCall: "ms_graph.create_todo_tasks(count=3, list='Sprint 44')",
       },
     ],
     finalOutput: {
       tasksSynced: 3,
-      targetList: "Microsoft To Do &bull; Sprint 44",
+      targetList: "Microsoft To Do · Sprint 44",
       syncStatus: "Success (100% Idempotent)",
       auditLog: "MS Graph API status 201 Created for all action items",
     },
@@ -130,7 +108,6 @@ export default function AgentWorkflowSimulator() {
 
   const currentPreset = PRESETS[activePreset];
 
-  // Automated step progression when running
   useEffect(() => {
     if (!isRunning || currentNodeIndex < 0) return;
 
@@ -138,7 +115,7 @@ export default function AgentWorkflowSimulator() {
       setIsRunning(false);
       setExecutionLogs((prev) => [
         ...prev,
-        `[COMPLETED] Workflow executed successfully. Output artifact synthesized.`,
+        `[STATE: COMPLETED] Workflow executed successfully. Output artifact generated.`,
       ]);
       return;
     }
@@ -147,7 +124,7 @@ export default function AgentWorkflowSimulator() {
     setExecutionLogs((prev) => [
       ...prev,
       `[${new Date().toLocaleTimeString()}] [${step.role}] ${step.thought}`,
-      `[TOOL_CALL] > ${step.toolCall}`,
+      `> CALL: ${step.toolCall}`,
     ]);
 
     const timer = setTimeout(() => {
@@ -159,7 +136,7 @@ export default function AgentWorkflowSimulator() {
 
   const handleStart = () => {
     setExecutionLogs([
-      `[SIMULATION INITIALIZED] Starting multi-agent state graph...`,
+      `[INIT] Starting multi-agent state graph...`,
       `[USER_QUERY] "${currentPreset.userQuery}"`,
     ]);
     setCurrentNodeIndex(0);
@@ -174,13 +151,13 @@ export default function AgentWorkflowSimulator() {
 
   return (
     <div className="space-y-6">
-      {/* Top Banner & Preset Selector */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-[#0b101c] border border-white/[0.08]">
+      {/* Control Bar: Scenario Select & Truthful Status */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded bg-[#181a1f] border border-[#262930]">
         <div>
-          <span className="text-[10px] font-mono uppercase text-slate-400 block">
-            SELECT WORKFLOW SCENARIO
-          </span>
-          <div className="flex flex-wrap gap-2 mt-1.5">
+          <div className="text-[11px] font-mono text-slate-400 mb-1.5 uppercase tracking-wide">
+            Select Workflow Scenario
+          </div>
+          <div className="flex flex-wrap gap-2">
             {PRESETS.map((p, idx) => (
               <button
                 key={p.title}
@@ -188,10 +165,10 @@ export default function AgentWorkflowSimulator() {
                   handleReset();
                   setActivePreset(idx);
                 }}
-                className={`text-xs font-mono px-3 py-1.5 rounded-lg border transition-all ${
+                className={`text-xs px-3 py-1.5 rounded border transition-colors ${
                   activePreset === idx
-                    ? "bg-indigo-500/20 text-indigo-300 border-indigo-500/40 font-bold"
-                    : "bg-white/[0.03] text-slate-400 border-white/[0.06] hover:text-white"
+                    ? "bg-[#22252c] text-amber border-amber font-medium"
+                    : "bg-[#121316] text-slate-300 border-[#262930] hover:text-white hover:border-slate-500"
                 }`}
               >
                 {p.title.split(":")[0]}
@@ -200,135 +177,108 @@ export default function AgentWorkflowSimulator() {
           </div>
         </div>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 shrink-0">
           <button
             onClick={handleStart}
             disabled={isRunning}
-            className="flex items-center space-x-1.5 px-4 py-2 rounded-lg bg-sky-500 hover:bg-sky-400 disabled:opacity-50 text-slate-950 font-bold text-xs font-mono transition-all shadow-md active:scale-95"
+            className="flex items-center space-x-1.5 px-3.5 py-2 rounded bg-amber hover:bg-amber-dark disabled:opacity-40 text-[#121316] font-semibold text-xs transition-colors"
           >
             <Play className="w-3.5 h-3.5 fill-current" />
-            <span>{isRunning ? "Running Agent..." : "Run Agent Simulation"}</span>
+            <span>{isRunning ? "Simulating..." : "Run Simulation"}</span>
           </button>
           <button
             onClick={handleReset}
-            className="p-2 rounded-lg bg-white/[0.05] hover:bg-white/[0.1] text-slate-400 hover:text-white border border-white/[0.08]"
-            title="Reset Workflow"
+            className="p-2 rounded bg-[#121316] hover:bg-[#22252c] text-slate-400 hover:text-white border border-[#262930] transition-colors"
+            title="Reset simulation"
           >
-            <RotateCcw className="w-4 h-4" />
+            <RotateCcw className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
 
-      {/* Interconnected Multi-Agent Nodes */}
-      <div className="relative p-6 rounded-2xl bg-[#090d18] border border-white/[0.08]">
-        <div className="flex items-center justify-between text-xs font-mono text-slate-400 mb-6 pb-2 border-b border-white/[0.06]">
-          <span className="flex items-center gap-1.5 text-white">
-            <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
-            ACTIVE MULTI-AGENT STATE GRAPH
-          </span>
-          <span className="text-[10px] text-amber-400/90 font-mono">
-            DISCLOSURE: CLIENT-SIDE SIMULATION
-          </span>
+      {/* Honest Scope Disclosure & View Source */}
+      <div className="flex items-center justify-between text-[11px] text-slate-400 px-1 font-mono">
+        <div>
+          <span>DISCLOSURE: Simulated State Machine · Client-Side Execution</span>
         </div>
+        <a
+          href="https://github.com/AKASHPR715/my-website/blob/main/components/lab/AgentWorkflowSimulator.tsx"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:text-amber inline-flex items-center space-x-1 transition-colors"
+        >
+          <span>View Component Source</span>
+          <ArrowUpRight className="w-3 h-3" />
+        </a>
+      </div>
 
-        {/* Horizontal Node Sequence */}
-        <div className="grid grid-cols-1 sm:grid-cols-5 gap-3">
-          {currentPreset.nodes.map((node, index) => {
-            const isCompleted = currentNodeIndex > index || (!isRunning && currentNodeIndex >= currentPreset.nodes.length);
-            const isActive = currentNodeIndex === index && isRunning;
-            const isPending = currentNodeIndex < index;
+      {/* Interconnected Multi-Agent Pipeline Nodes */}
+      <div className="grid grid-cols-1 sm:grid-cols-5 gap-2 border border-[#262930] bg-[#181a1f] p-3 rounded">
+        {currentPreset.nodes.map((node, index) => {
+          const isCompleted = currentNodeIndex > index || (!isRunning && currentNodeIndex >= currentPreset.nodes.length);
+          const isActive = currentNodeIndex === index && isRunning;
 
-            return (
-              <div
-                key={node.id}
-                className={`relative p-3.5 rounded-xl border transition-all flex flex-col justify-between ${
-                  isActive
-                    ? "bg-sky-950/50 border-sky-400 shadow-xl shadow-sky-500/20 scale-105 z-10"
-                    : isCompleted
-                    ? "bg-emerald-950/20 border-emerald-500/40 text-emerald-300"
-                    : "bg-[#0d1424] border-white/[0.06] text-slate-500"
-                }`}
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-[10px] font-mono font-bold">
-                      NODE 0{index + 1}
-                    </span>
-                    <span
-                      className={`text-[8px] font-mono px-1.5 py-0.5 rounded ${
-                        isActive
-                          ? "bg-sky-500 text-slate-950 font-bold animate-pulse"
-                          : isCompleted
-                          ? "bg-emerald-500/20 text-emerald-300"
-                          : "bg-white/[0.05] text-slate-500"
-                      }`}
-                    >
-                      {isActive ? "PROCESSING" : isCompleted ? "COMPLETED" : "IDLE"}
-                    </span>
-                  </div>
-
-                  <h4
-                    className={`text-xs font-bold ${
+          return (
+            <div
+              key={node.id}
+              className={`p-3 rounded border transition-colors flex flex-col justify-between min-h-[110px] ${
+                isActive
+                  ? "bg-[#22252c] border-amber text-white"
+                  : isCompleted
+                  ? "bg-[#181a1f] border-signal-greenBorder text-slate-200"
+                  : "bg-[#121316] border-[#262930] text-slate-400"
+              }`}
+            >
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <span className={`text-[10px] font-mono ${isActive ? "text-amber font-semibold" : "text-slate-400"}`}>
+                    NODE 0{index + 1}
+                  </span>
+                  <span
+                    className={`text-[9px] font-mono px-1 rounded ${
                       isActive
-                        ? "text-sky-300"
+                        ? "bg-amber text-[#121316] font-semibold"
                         : isCompleted
-                        ? "text-white"
+                        ? "text-signal-green"
                         : "text-slate-400"
                     }`}
                   >
-                    {node.name}
-                  </h4>
-                  <span className="text-[10px] font-mono text-slate-400 block mt-0.5">
-                    {node.role}
+                    {isActive ? "RUNNING" : isCompleted ? "DONE" : "IDLE"}
                   </span>
                 </div>
-
-                {/* Sub status */}
-                <div className="mt-3 pt-2 border-t border-white/[0.05] text-[9px] font-mono truncate">
-                  {isActive ? (
-                    <span className="text-sky-400 flex items-center gap-1">
-                      <Sparkles className="w-3 h-3 animate-spin" /> Calling Tool...
-                    </span>
-                  ) : isCompleted ? (
-                    <span className="text-emerald-400 flex items-center gap-1">
-                      <CheckCircle2 className="w-3 h-3" /> State Updated
-                    </span>
-                  ) : (
-                    <span>Awaiting Transition</span>
-                  )}
+                <div className={`text-xs font-semibold ${isActive ? "text-white" : isCompleted ? "text-slate-200" : "text-slate-400"}`}>
+                  {node.name}
                 </div>
               </div>
-            );
-          })}
-        </div>
+              <div className="text-[10px] font-mono text-slate-400 pt-2 border-t border-[#262930] truncate">
+                {node.role}
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       {/* Terminal Telemetry Log Output */}
-      <div className="rounded-2xl bg-black/80 border border-white/[0.1] p-4 sm:p-5 font-mono text-xs space-y-2 overflow-hidden shadow-2xl">
-        <div className="flex items-center justify-between pb-2 border-b border-white/[0.08] text-[11px] text-slate-400">
-          <div className="flex items-center space-x-2">
-            <Terminal className="w-3.5 h-3.5 text-sky-400" />
-            <span className="text-slate-200">AGENT STATE MACHINE EXECUTION LOGS</span>
-          </div>
-          <span className="text-[10px] text-slate-400">
-            {executionLogs.length} events logged
-          </span>
+      <div className="rounded bg-[#121316] border border-[#262930] p-4 font-mono text-xs space-y-2">
+        <div className="flex items-center justify-between pb-2 border-b border-[#262930] text-[11px] text-slate-400">
+          <span className="text-slate-300">TELEMETRY & TOOL-CALL EXECUTION LOG</span>
+          <span>{executionLogs.length} events</span>
         </div>
 
-        <div className="h-44 overflow-y-auto space-y-1.5 text-[11px] text-slate-300 scrollbar-thin pt-1">
+        <div className="h-40 overflow-y-auto space-y-1 text-[11px] text-slate-300 pt-1">
           {executionLogs.length === 0 ? (
-            <div className="text-slate-400 italic py-8 text-center">
-              Click &ldquo;Run Agent Simulation&rdquo; to observe real-time LangGraph multi-agent state transitions...
+            <div className="text-slate-400 italic py-6 text-center">
+              Click &ldquo;Run Simulation&rdquo; above to execute the LangGraph multi-agent state transitions.
             </div>
           ) : (
             executionLogs.map((log, i) => (
               <div
                 key={i}
                 className={
-                  log.startsWith("[TOOL_CALL]")
-                    ? "text-amber-400 pl-4 border-l border-amber-500/40"
-                    : log.startsWith("[COMPLETED]")
-                    ? "text-emerald-400 font-bold"
+                  log.startsWith("> CALL:")
+                    ? "text-amber pl-3 border-l border-amber/40"
+                    : log.startsWith("[STATE: COMPLETED]")
+                    ? "text-signal-green font-semibold"
                     : "text-slate-300"
                 }
               >
@@ -339,18 +289,18 @@ export default function AgentWorkflowSimulator() {
         </div>
 
         {/* Synthesized Output Banner when completed */}
-        {!isRunning && currentNodeIndex >= currentPreset.nodes.length && executionLogs.length > 3 && (
-          <div className="mt-3 p-3 rounded-xl bg-emerald-950/30 border border-emerald-500/40 animate-in fade-in duration-300 space-y-1">
-            <span className="text-[10px] font-mono text-emerald-400 font-bold uppercase flex items-center gap-1">
-              <CheckCircle2 className="w-3.5 h-3.5" /> SYNTHESIZED STATE ARTIFACT
-            </span>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs pt-1 text-slate-200">
+        {!isRunning && currentNodeIndex >= currentPreset.nodes.length && executionLogs.length > 2 && (
+          <div className="mt-3 p-3 rounded bg-[#181a1f] border border-signal-greenBorder space-y-2">
+            <div className="text-[10px] font-mono text-signal-green uppercase font-semibold">
+              SYNTHESIZED STATE ARTIFACT
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
               {Object.entries(currentPreset.finalOutput).map(([k, v]) => (
-                <div key={k} className="p-2 rounded bg-black/40 border border-white/[0.06]">
+                <div key={k} className="p-2 rounded bg-[#121316] border border-[#262930]">
                   <span className="text-[9px] text-slate-400 uppercase block font-mono">
                     {k.replace(/([A-Z])/g, " $1")}
                   </span>
-                  <span className="font-bold text-white mt-0.5 block">{String(v)}</span>
+                  <span className="font-semibold text-slate-200 mt-0.5 block">{String(v)}</span>
                 </div>
               ))}
             </div>

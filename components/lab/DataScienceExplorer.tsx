@@ -2,8 +2,6 @@
 
 import { useState, useMemo } from "react";
 import { 
-  BarChart, 
-  Bar, 
   XAxis, 
   YAxis, 
   Tooltip, 
@@ -12,16 +10,7 @@ import {
   AreaChart, 
   Area 
 } from "recharts";
-import { 
-  BarChart3, 
-  Sliders, 
-  Filter, 
-  TrendingUp, 
-  PieChart, 
-  Sparkles, 
-  Info,
-  CheckCircle2
-} from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 export default function DataScienceExplorer() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
@@ -31,27 +20,25 @@ export default function DataScienceExplorer() {
   const [responseLatency, setResponseLatency] = useState<number>(12);
   const [lexicalDiversity, setLexicalDiversity] = useState<number>(75);
 
-  // Sample Dataset for Visualization
   const rawHourlyData = [
     { hour: "08:00", volume: 18, latency: 28, category: "Engineering" },
     { hour: "10:00", volume: 64, latency: 8, category: "Engineering" },
     { hour: "12:00", volume: 82, latency: 11, category: "Operations" },
-    { hour: "14:00", volume: 95, latency: 6, category: "AI Microservices" },
+    { hour: "14:00", volume: 95, latency: 6, category: "Microservices" },
     { hour: "16:00", volume: 88, latency: 9, category: "Engineering" },
     { hour: "18:00", volume: 42, latency: 16, category: "Operations" },
-    { hour: "20:00", volume: 24, latency: 32, category: "AI Microservices" },
+    { hour: "20:00", volume: 24, latency: 32, category: "Microservices" },
     { hour: "22:00", volume: 12, latency: 45, category: "Operations" },
   ];
 
   const clusterPersonas = [
-    { cluster: "Cluster 0: Core Initiators", share: "34%", count: 41, desc: "High volume, low latency, dense technical vocabulary." },
+    { cluster: "Cluster 0: Core Initiators", share: "34%", count: 41, desc: "High message volume, fast response, dense technical vocabulary." },
     { cluster: "Cluster 1: Responsive Collaborators", share: "48%", count: 58, desc: "Moderate volume, rapid response time, high reply ratio." },
     { cluster: "Cluster 2: Passive Observers", share: "18%", count: 21, desc: "Low message count, elevated response latency." },
   ];
 
-  // Client-side prediction logic simulating Random Forest classifier
+  // Dynamic client-side prediction heuristic simulating classifier
   const prediction = useMemo(() => {
-    // Scoring heuristic calibrated to mimic the original experiment
     const score = (msgVolume * 0.45) - (responseLatency * 0.7) + (lexicalDiversity * 0.35);
 
     if (score > 35) {
@@ -59,15 +46,15 @@ export default function DataScienceExplorer() {
         tier: "High-Impact Initiator",
         cluster: "Cluster 0",
         confidence: Math.min(99, Math.round(82 + (score * 0.25))),
-        badge: "bg-emerald-500/20 text-emerald-300 border-emerald-500/40",
-        recommendation: "Optimal conversational driver. Exhibits high engagement velocity.",
+        badge: "text-signal-green bg-signal-greenSubtle border-signal-greenBorder",
+        recommendation: "High conversational velocity. Key driver of active workthreads.",
       };
     } else if (score > 10) {
       return {
         tier: "Collaborative Responder",
         cluster: "Cluster 1",
         confidence: Math.min(96, Math.round(78 + (score * 0.3))),
-        badge: "bg-sky-500/20 text-sky-300 border-sky-500/40",
+        badge: "text-amber bg-amber-subtle border-amber-border",
         recommendation: "Consistent responder. Provides timely support across threads.",
       };
     } else {
@@ -75,7 +62,7 @@ export default function DataScienceExplorer() {
         tier: "Passive Observer",
         cluster: "Cluster 2",
         confidence: Math.min(98, Math.round(85 + Math.abs(score) * 0.2)),
-        badge: "bg-amber-500/20 text-amber-300 border-amber-500/40",
+        badge: "text-slate-400 bg-[#121316] border-[#262930]",
         recommendation: "Infrequent activity. Higher latency observed.",
       };
     }
@@ -88,21 +75,21 @@ export default function DataScienceExplorer() {
 
   return (
     <div className="space-y-6">
-      {/* Top Banner and Category Filter */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-[#0b101c] border border-white/[0.08]">
+      {/* Control Bar */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded bg-[#181a1f] border border-[#262930]">
         <div>
-          <span className="text-[10px] font-mono uppercase text-slate-400 block">
-            DATASET DOMAIN & FILTER
-          </span>
-          <div className="flex flex-wrap gap-2 mt-1.5">
-            {["All", "Engineering", "Operations", "AI Microservices"].map((cat) => (
+          <div className="text-[11px] font-mono text-slate-400 mb-1.5 uppercase tracking-wide">
+            Filter Telemetry Segment
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {["All", "Engineering", "Operations", "Microservices"].map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`text-xs font-mono px-3 py-1.5 rounded-lg border transition-all ${
+                className={`text-xs px-3 py-1.5 rounded border transition-colors ${
                   selectedCategory === cat
-                    ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/40 font-bold"
-                    : "bg-white/[0.03] text-slate-400 border-white/[0.06] hover:text-white"
+                    ? "bg-[#22252c] text-amber border-amber font-medium"
+                    : "bg-[#121316] text-slate-300 border-[#262930] hover:text-white hover:border-slate-500"
                 }`}
               >
                 {cat}
@@ -111,107 +98,116 @@ export default function DataScienceExplorer() {
           </div>
         </div>
 
-        <div className="text-right">
-          <span className="text-[10px] font-mono text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded border border-amber-500/20">
-            ILLUSTRATIVE TELEMETRY EXPERIMENT
-          </span>
+        <div className="flex flex-col sm:items-end gap-1 shrink-0">
+          <div className="text-[11px] font-mono text-slate-300 px-2.5 py-1 rounded bg-[#121316] border border-[#262930]">
+            Interactive Client-Side Calculation · Anonymized Sample Data
+          </div>
+          <a
+            href="https://github.com/AKASHPR715/my-website/blob/main/components/lab/DataScienceExplorer.tsx"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[11px] text-slate-400 hover:text-amber inline-flex items-center space-x-1 transition-colors"
+          >
+            <span>View Component Source</span>
+            <ArrowUpRight className="w-3 h-3" />
+          </a>
         </div>
       </div>
 
       {/* Dataset Statistics Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="p-3.5 rounded-xl bg-[#0a0f1d] border border-white/[0.06]">
-          <span className="text-[10px] font-mono text-slate-400 block">TOTAL RECORDS</span>
-          <span className="text-xl font-bold font-mono text-white mt-0.5 block">120 Cohorts</span>
-          <span className="text-[10px] text-slate-400 font-mono">Cleaned & Anonymized</span>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 border border-[#262930] bg-[#181a1f] p-3 rounded">
+        <div className="p-3 rounded bg-[#121316] border border-[#262930]">
+          <div className="text-[10px] font-mono text-slate-400">DATASET SIZE</div>
+          <div className="text-lg font-semibold font-mono text-white mt-0.5">120 Cohorts</div>
+          <div className="text-[10px] text-slate-400">Exported & Anonymized</div>
         </div>
-        <div className="p-3.5 rounded-xl bg-[#0a0f1d] border border-white/[0.06]">
-          <span className="text-[10px] font-mono text-slate-400 block">SILHOUETTE SCORE</span>
-          <span className="text-xl font-bold font-mono text-emerald-400 mt-0.5 block">0.6019</span>
-          <span className="text-[10px] text-emerald-400/80 font-mono">Strong Clustering (k=3)</span>
+        <div className="p-3 rounded bg-[#121316] border border-[#262930]">
+          <div className="text-[10px] font-mono text-slate-400">SILHOUETTE SCORE</div>
+          <div className="text-lg font-semibold font-mono text-amber mt-0.5">0.6019</div>
+          <div className="text-[10px] text-slate-400">K-Means Separation (k=3)</div>
         </div>
-        <div className="p-3.5 rounded-xl bg-[#0a0f1d] border border-white/[0.06]">
-          <span className="text-[10px] font-mono text-slate-400 block">MEAN LATENCY</span>
-          <span className="text-xl font-bold font-mono text-sky-400 mt-0.5 block">14.2 min</span>
-          <span className="text-[10px] text-slate-400 font-mono">Response Turnaround</span>
+        <div className="p-3 rounded bg-[#121316] border border-[#262930]">
+          <div className="text-[10px] font-mono text-slate-400">MEAN LATENCY</div>
+          <div className="text-lg font-semibold font-mono text-slate-200 mt-0.5">14.2 min</div>
+          <div className="text-[10px] text-slate-400">Turnaround Time</div>
         </div>
-        <div className="p-3.5 rounded-xl bg-[#0a0f1d] border border-white/[0.06]">
-          <span className="text-[10px] font-mono text-slate-400 block">MODEL ALGORITHM</span>
-          <span className="text-xl font-bold font-mono text-white mt-0.5 block">Random Forest</span>
-          <span className="text-[10px] text-slate-400 font-mono">100 Trees &bull; Gini Impurity</span>
+        <div className="p-3 rounded bg-[#121316] border border-[#262930]">
+          <div className="text-[10px] font-mono text-slate-400">CLASSIFIER</div>
+          <div className="text-lg font-semibold font-mono text-white mt-0.5">Random Forest</div>
+          <div className="text-[10px] text-slate-400">100 Estimators</div>
         </div>
       </div>
 
-      {/* Interactive Visualizations Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Left Chart: Hourly Activity vs Latency */}
-        <div className="lg:col-span-7 p-5 rounded-2xl bg-[#090d18] border border-white/[0.08] flex flex-col justify-between">
-          <div className="flex items-center justify-between pb-3 mb-2 border-b border-white/[0.06]">
+      {/* Visualizations & Personas */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        {/* Chart */}
+        <div className="lg:col-span-7 p-4 rounded bg-[#181a1f] border border-[#262930] flex flex-col justify-between">
+          <div className="flex items-center justify-between pb-3 mb-2 border-b border-[#262930]">
             <div>
-              <h4 className="text-xs font-mono font-bold text-white uppercase tracking-wider">
-                COMMUNICATION VELOCITY & LATENCY CURVE
-              </h4>
-              <span className="text-[10px] font-mono text-slate-400">
-                Message Volume (bars) vs Response Delay in minutes (shaded area)
-              </span>
+              <div className="text-xs font-semibold text-white">
+                Message Volume vs Response Delay Curve
+              </div>
+              <div className="text-[11px] text-slate-400">
+                Messages (amber fill) vs Latency in minutes (white line)
+              </div>
             </div>
-            <span className="text-xs font-mono text-sky-400">24H Window</span>
+            <span className="text-[11px] font-mono text-slate-400">24h Window</span>
           </div>
 
-          <div className="h-60 w-full pt-4">
+          <div className="h-56 w-full pt-2">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={filteredData}>
                 <defs>
-                  <linearGradient id="volGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#38bdf8" stopOpacity={0.4} />
-                    <stop offset="95%" stopColor="#38bdf8" stopOpacity={0.0} />
+                  <linearGradient id="amberGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.25} />
+                    <stop offset="95%" stopColor="#f59e0b" stopOpacity={0.0} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1f293d" />
-                <XAxis dataKey="hour" stroke="#64748b" fontSize={10} fontVariant="monospace" />
-                <YAxis stroke="#64748b" fontSize={10} fontVariant="monospace" />
+                <CartesianGrid strokeDasharray="2 2" stroke="#262930" />
+                <XAxis dataKey="hour" stroke="#6b7280" fontSize={10} fontFamily="monospace" />
+                <YAxis stroke="#6b7280" fontSize={10} fontFamily="monospace" />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: "#0d1322",
-                    borderColor: "#38bdf8",
-                    borderRadius: "8px",
+                    backgroundColor: "#181a1f",
+                    borderColor: "#373c47",
+                    borderRadius: "4px",
                     fontSize: "11px",
                     fontFamily: "monospace",
                   }}
                 />
-                <Area type="monotone" dataKey="volume" stroke="#38bdf8" fill="url(#volGrad)" name="Messages" />
-                <Area type="monotone" dataKey="latency" stroke="#10b981" fill="none" strokeWidth={2} name="Latency (min)" />
+                <Area type="monotone" dataKey="volume" stroke="#f59e0b" fill="url(#amberGrad)" name="Messages" strokeWidth={1.5} />
+                <Area type="monotone" dataKey="latency" stroke="#f3f4f6" fill="none" strokeWidth={1.5} name="Latency (min)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        {/* Right Panel: K-Means Personas */}
-        <div className="lg:col-span-5 p-5 rounded-2xl bg-[#090d18] border border-white/[0.08] flex flex-col justify-between space-y-3">
-          <div className="pb-2 border-b border-white/[0.06]">
-            <h4 className="text-xs font-mono font-bold text-white uppercase tracking-wider">
-              K-MEANS CLUSTER PERSONAS
-            </h4>
-            <span className="text-[10px] font-mono text-slate-400">
-              Silhouette Separation = 0.6019 (k=3 clusters)
-            </span>
+        {/* Persona Cards */}
+        <div className="lg:col-span-5 p-4 rounded bg-[#181a1f] border border-[#262930] space-y-2.5">
+          <div className="pb-2 border-b border-[#262930]">
+            <div className="text-xs font-semibold text-white">
+              Cluster Personas (K-Means)
+            </div>
+            <div className="text-[11px] text-slate-400">
+              Evaluated on feature space (Silhouette = 0.6019)
+            </div>
           </div>
 
-          <div className="space-y-2.5">
+          <div className="space-y-2">
             {clusterPersonas.map((cp) => (
               <div
                 key={cp.cluster}
-                className="p-3 rounded-xl bg-[#0c1220] border border-white/[0.06] text-xs space-y-1"
+                className="p-3 rounded bg-[#121316] border border-[#262930] text-xs space-y-1"
               >
                 <div className="flex items-center justify-between">
-                  <span className="font-bold text-white font-mono text-[11px]">
-                    {cp.cluster}
+                  <span className="font-semibold text-slate-200">
+                    {cp.cluster.split(":")[0]}
                   </span>
-                  <span className="font-mono text-xs text-sky-400 font-bold">
+                  <span className="font-mono text-amber text-xs font-semibold">
                     {cp.share}
                   </span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed">
+                <p className="text-[11px] text-slate-400 leading-relaxed">
                   {cp.desc}
                 </p>
               </div>
@@ -220,26 +216,22 @@ export default function DataScienceExplorer() {
         </div>
       </div>
 
-      {/* Interactive Model Prediction Demonstration */}
-      <div className="p-6 rounded-2xl bg-[#0a0f1d] border border-sky-500/30 space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-white/[0.06] gap-2">
-          <div className="flex items-center space-x-2">
-            <Sliders className="w-4 h-4 text-sky-400" />
-            <h4 className="text-xs font-mono font-bold text-white uppercase tracking-wider">
-              INTERACTIVE ENGAGEMENT PREDICTOR SIMULATOR
-            </h4>
+      {/* Interactive Sliders Demonstration */}
+      <div className="p-5 rounded bg-[#181a1f] border border-[#262930] space-y-5">
+        <div className="pb-2 border-b border-[#262930]">
+          <div className="text-xs font-semibold text-white">
+            Real-Time Feature Weight Predictor
           </div>
-          <span className="text-[10px] font-mono text-slate-400">
-            Adjust feature weights below to watch classification adapt in real time
-          </span>
+          <div className="text-[11px] text-slate-400">
+            Adjust the input parameters below to see the simulated classifier recalculate tier and confidence in real time.
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Slider 1: Message Volume */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between text-xs font-mono">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between text-xs">
               <span className="text-slate-300">Message Volume / Day</span>
-              <span className="text-sky-400 font-bold">{msgVolume} msgs</span>
+              <span className="font-mono text-amber font-semibold">{msgVolume} msgs</span>
             </div>
             <input
               type="range"
@@ -247,16 +239,15 @@ export default function DataScienceExplorer() {
               max="150"
               value={msgVolume}
               onChange={(e) => setMsgVolume(Number(e.target.value))}
-              className="w-full accent-sky-400 bg-slate-800 rounded-lg cursor-pointer"
+              className="w-full accent-amber bg-[#121316] rounded cursor-pointer"
             />
-            <span className="text-[10px] font-mono text-slate-400">Feature Importance: 45%</span>
+            <div className="text-[10px] font-mono text-slate-400">Feature Weight: 45%</div>
           </div>
 
-          {/* Slider 2: Response Latency */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between text-xs font-mono">
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between text-xs">
               <span className="text-slate-300">Avg Response Delay</span>
-              <span className="text-sky-400 font-bold">{responseLatency} mins</span>
+              <span className="font-mono text-amber font-semibold">{responseLatency} min</span>
             </div>
             <input
               type="range"
@@ -264,16 +255,15 @@ export default function DataScienceExplorer() {
               max="90"
               value={responseLatency}
               onChange={(e) => setResponseLatency(Number(e.target.value))}
-              className="w-full accent-sky-400 bg-slate-800 rounded-lg cursor-pointer"
+              className="w-full accent-amber bg-[#121316] rounded cursor-pointer"
             />
-            <span className="text-[10px] font-mono text-slate-400">Feature Importance: 35%</span>
+            <div className="text-[10px] font-mono text-slate-400">Feature Weight: 35%</div>
           </div>
 
-          {/* Slider 3: Lexical Diversity */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between text-xs font-mono">
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between text-xs">
               <span className="text-slate-300">Lexical Richness</span>
-              <span className="text-sky-400 font-bold">{lexicalDiversity}%</span>
+              <span className="font-mono text-amber font-semibold">{lexicalDiversity}%</span>
             </div>
             <input
               type="range"
@@ -281,25 +271,23 @@ export default function DataScienceExplorer() {
               max="95"
               value={lexicalDiversity}
               onChange={(e) => setLexicalDiversity(Number(e.target.value))}
-              className="w-full accent-sky-400 bg-slate-800 rounded-lg cursor-pointer"
+              className="w-full accent-amber bg-[#121316] rounded cursor-pointer"
             />
-            <span className="text-[10px] font-mono text-slate-400">Feature Importance: 20%</span>
+            <div className="text-[10px] font-mono text-slate-400">Feature Weight: 20%</div>
           </div>
         </div>
 
         {/* Prediction Result Output Card */}
-        <div className="p-4 rounded-xl bg-[#0d1424] border border-white/[0.08] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="p-4 rounded bg-[#121316] border border-[#262930] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
-            <span className="text-[10px] font-mono uppercase text-slate-400">
-              PREDICTED PARTICIPANT ENGAGEMENT TIER
-            </span>
-            <div className="flex items-center space-x-3">
-              <span className="text-lg font-bold text-white font-mono">
+            <div className="text-[10px] font-mono text-slate-400 uppercase">
+              Predicted Participant Engagement Tier
+            </div>
+            <div className="flex items-center space-x-2.5">
+              <span className="text-base font-semibold text-white">
                 {prediction.tier}
               </span>
-              <span
-                className={`text-[10px] font-mono px-2.5 py-0.5 rounded border ${prediction.badge}`}
-              >
+              <span className={`text-[10px] font-mono px-2 py-0.5 rounded border ${prediction.badge}`}>
                 {prediction.cluster}
               </span>
             </div>
@@ -307,11 +295,10 @@ export default function DataScienceExplorer() {
           </div>
 
           <div className="text-right shrink-0">
-            <span className="text-[10px] font-mono text-slate-400 block">MODEL CONFIDENCE</span>
-            <span className="text-2xl font-bold font-mono text-sky-400 block mt-0.5">
+            <span className="text-[10px] font-mono text-slate-400 block">ESTIMATED CONFIDENCE</span>
+            <span className="text-2xl font-mono font-semibold text-amber block mt-0.5">
               {prediction.confidence}%
             </span>
-            <span className="text-[9px] font-mono text-emerald-400">Optimal Convergence</span>
           </div>
         </div>
       </div>

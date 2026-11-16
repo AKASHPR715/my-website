@@ -14,6 +14,7 @@ export interface ExperienceItem {
     name: string;
     description: string;
     technologies: string[];
+    metric?: string;
   }[];
   skills: string[];
   isProductionStarted?: boolean;
@@ -30,11 +31,12 @@ export const experienceData: ExperienceItem[] = [
     current: true,
     statusBadge: "Foundational Phase",
     description:
-      "Joined Equifax as an Automation Engineer and completed a three-month foundational training programme before being assigned to a team.",
+      "Joined Equifax as an Automation Engineer. Completed foundational enterprise engineering curriculum and assigned to an automation team. Production contributions have not yet started.",
     responsibilities: [
-      "Completed comprehensive foundational enterprise engineering and automation training curriculum.",
+      "Completed 3-month foundational enterprise automation and software engineering training.",
       "Assigned to engineering team to prepare for production workflow alignment.",
-      "Engaged in technical onboarding and enterprise system architectural review.",
+      "Engaged in technical onboarding and enterprise system architecture review.",
+      "[TODO: Akash — add production team name, test suite framework, or CI/CD metrics once assigned to live sprints]",
     ],
     skills: ["Automation Architecture", "Enterprise Systems", "Python", "Software Engineering"],
     isProductionStarted: false,
@@ -46,41 +48,44 @@ export const experienceData: ExperienceItem[] = [
     location: "Kerala, India",
     period: "September 2025 – June 30, 2026",
     type: "Internship",
-    statusBadge: "10-Month Intensive",
+    statusBadge: "10-Month Internship",
     description:
-      "Worked on enterprise-focused Generative AI and automation solutions, exploring how LLMs and intelligent agents can improve organizational workflows.",
+      "Researched and developed enterprise Generative AI and automation solutions, focusing on workplace agents, safety guardrails, and AST-driven developer tools.",
     responsibilities: [
-      "Implemented LLM safety guardrails using LlamaGuard and Guardrails AI to validate input prompts and output generations against enterprise policies.",
-      "Tested and verified backend AI microservice APIs using Swagger documentation and test suites.",
-      "Developed an AI-powered risk prediction system to evaluate vulnerabilities in business processes.",
-      "Engineered an automated AI dashboard insight generator transforming raw metric streams into natural language summaries.",
-      "Developed a Microsoft Teams agent integrating Microsoft Graph API to summarize prior-day organizational chats, extract actionable action items, and sync to Microsoft To Do.",
-      "Engineered automated code-commenting and documentation tools leveraging Python Abstract Syntax Trees (AST) and automated Doxygen comment generators.",
-      "Built an automated unit-testing agent that parses C++ source code to synthesize robust Google Test suites.",
+      "Implemented LLM safety guardrails using LlamaGuard and Guardrails AI to validate input queries and sanitize completions against policy.",
+      "Tested and verified backend AI microservice endpoints using Swagger specifications.",
+      "Developed an AI-powered risk prediction system to evaluate potential vulnerabilities in business workflows.",
+      "Built an AI dashboard insight generator transforming raw metric streams into natural language summaries.",
+      "Developed a Microsoft Teams agent integrating Microsoft Graph API to parse previous-day channel messages, extract actionable tasks, and push them to Microsoft To Do.",
+      "Built automated code-commenting and documentation tools leveraging Python Abstract Syntax Trees (AST) and automated Doxygen comment generators.",
+      "Developed an automated unit-testing agent that parses C++ source code to synthesize Google Test test cases.",
     ],
     keyProjects: [
       {
-        name: "LLM Guardrails & Safety Pipeline",
+        name: "Microsoft Teams Task Extraction Agent",
         description:
-          "Enforced strict safety boundaries on enterprise LLM interactions using LlamaGuard and Guardrails AI, preventing jailbreaks and policy infractions.",
-        technologies: ["LlamaGuard", "Guardrails AI", "Python", "Swagger"],
-      },
-      {
-        name: "Microsoft Teams Intelligence Agent",
-        description:
-          "Autonomous workplace assistant interacting with Microsoft Graph API to extract action items from daily channel logs and schedule tasks into Microsoft To Do.",
+          "Workplace automation connecting to Microsoft Graph API to extract action items from daily channel logs and schedule tasks into Microsoft To Do.",
         technologies: ["Microsoft Graph API", "LangChain", "Python", "FastAPI"],
+        metric: "Sub-8s per-channel extraction latency [TODO: Akash — confirm channel message batch size]",
       },
       {
-        name: "Automated Code Analysis & Documentation",
+        name: "Enterprise LLM Guardrails & Safety Pipeline",
         description:
-          "AST-driven tools for auto-generating Doxygen syntax comments and Google Test unit suites directly from source code structures.",
+          "Two-phase safety gateway using regex PII scrubbers and LlamaGuard classification across 12 risk taxonomies with automated early-exit on violations.",
+        technologies: ["LlamaGuard", "Guardrails AI", "Python", "Swagger"],
+        metric: "Sub-second regex pre-filter + LlamaGuard classification",
+      },
+      {
+        name: "AST-Driven Code Analysis & Google Test Generator",
+        description:
+          "Python AST parser evaluating C++ function signatures to generate structured Doxygen comments and stubbed Google Test test fixtures.",
         technologies: ["Python AST", "Google Test", "Doxygen", "C++"],
+        metric: "[TODO: Akash — insert approximate number of functions/files tested]",
       },
       {
         name: "AI Risk Prediction & Dashboard Insight Generator",
         description:
-          "Predictive AI pipeline identifying workflow risks and generating executive natural language insights from complex enterprise dashboards.",
+          "Predictive AI pipeline identifying workflow risks and generating natural language summaries from enterprise telemetry streams.",
         technologies: ["Python", "Machine Learning", "Prompt Engineering"],
       },
     ],
@@ -103,12 +108,12 @@ export const experienceData: ExperienceItem[] = [
     period: "December 2024 – January 2025",
     type: "Internship",
     description:
-      "Researched and implemented computer vision algorithms and sports analytics pipelines for professional badminton footage.",
+      "Implemented computer vision tracking algorithms and sports analytics pipelines for professional badminton match footage.",
     responsibilities: [
-      "Developed deep learning models for high-speed badminton shuttlecock detection and tracking across dynamic broadcast video frames.",
-      "Utilized TrackNet and YOLO architectures to localize small, fast-moving objects with high temporal consistency.",
-      "Implemented player pose estimation using computer vision to evaluate movement biomechanics and court positioning.",
-      "Contributed to match outcome prediction models based on point-by-point rally trajectory data.",
+      "Trained and evaluated deep learning models for high-speed badminton shuttlecock detection and tracking across video frames.",
+      "Applied TrackNet and YOLO architectures to localize small, fast-moving objects under severe motion blur.",
+      "Implemented player pose estimation using computer vision to evaluate court positioning and biomechanics.",
+      "Contributed to match outcome modeling based on rally trajectory data.",
     ],
     skills: ["Computer Vision", "TrackNet", "YOLO", "OpenCV", "Pose Estimation", "Python"],
   },
@@ -120,10 +125,10 @@ export const experienceData: ExperienceItem[] = [
     period: "December 2024 – January 2025",
     type: "Internship",
     description:
-      "Deepened foundational Natural Language Processing engineering with a focus on text preprocessing, vectorization, and summarization pipelines.",
+      "Built foundational NLP workflows focusing on text preprocessing, tokenization, vectorization, and summarization techniques.",
     responsibilities: [
       "Constructed linguistic preprocessing workflows including custom tokenization, stop-word filtering, and lemmatization.",
-      "Implemented extractive and abstractive text summarization techniques on unstructured document corpora.",
+      "Implemented extractive and abstractive text summarization algorithms on unstructured document corpora.",
       "Evaluated text representation methods including TF-IDF and word embeddings for downstream text classification.",
     ],
     skills: ["Natural Language Processing", "NLTK", "Text Preprocessing", "Summarization", "Python"],
@@ -136,10 +141,10 @@ export const experienceData: ExperienceItem[] = [
     period: "May 2025 – June 2025",
     type: "Industrial Training",
     description:
-      "Participated in rigorous industrial training focused on deploying multimodal AI systems for educational technology.",
+      "Completed hands-on industrial training focused on deploying multimodal AI systems for educational technology.",
     responsibilities: [
-      "Engineered an adaptive AI learning assistant featuring student engagement detection using real-time computer vision.",
-      "Integrated facial expression recognition models with OpenCV to measure learner attentiveness.",
+      "Developed an adaptive AI learning assistant featuring student engagement detection using real-time computer vision.",
+      "Integrated facial expression recognition models with OpenCV to estimate learner attentiveness.",
       "Connected speech-to-text (SpeechRecognition) and text-to-speech (gTTS) modules with LLaMA models via OpenRouter.",
     ],
     skills: ["Multimodal AI", "OpenCV", "Facial Expression Recognition", "LLaMA", "SpeechRecognition"],

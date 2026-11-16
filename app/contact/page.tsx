@@ -1,15 +1,15 @@
-import ContactSection from "@/components/contact/ContactSection";
 import { Metadata } from "next";
+import ContactSection from "@/components/contact/ContactSection";
 
 export const metadata: Metadata = {
-  title: "Contact Akash PR | Automation Engineer & AI Specialist",
+  title: "Contact & Inquiries",
   description:
-    "Direct contact channels, LinkedIn, GitHub, and message transmission form for Akash PR, Automation Engineer at Equifax.",
+    "Direct contact channels, LinkedIn, GitHub, and mail client routing for Akash PR, Automation Engineer at Equifax.",
 };
 
 export default function ContactPage() {
   return (
-    <div className="pt-20">
+    <div className="pt-20 bg-[#121316] min-h-screen">
       <ContactSection />
     </div>
   );

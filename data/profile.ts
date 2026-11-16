@@ -6,6 +6,7 @@ export interface ProfileData {
   email: string;
   github: string;
   linkedin: string;
+  seeking: string;
   currentRole: {
     title: string;
     company: string;
@@ -20,7 +21,6 @@ export interface ProfileData {
     status: string;
   };
   hero: {
-    smallIntro: string;
     headline: string;
     description: string;
     identityTags: string[];
@@ -38,58 +38,58 @@ export interface ProfileData {
 
 export const profileData: ProfileData = {
   name: "Akash PR",
-  tagline: "Building intelligent systems that automate, analyze and solve real-world problems.",
+  tagline: "Deterministic automation, practical AI agents, and data pipelines.",
   headline: "Automation Engineer | AI Engineer | Data Science",
   location: "Kerala, India",
   email: "akashpr715@gmail.com",
   github: "https://github.com/AKASHPR715",
   linkedin: "https://www.linkedin.com/in/akashpr715/",
+  seeking: "Automation Engineer, AI Engineer, or Data Science roles · India (Bangalore / Kerala / Remote)",
   currentRole: {
     title: "Automation Engineer",
     company: "Equifax",
-    status: "Active Employee (Joined July 1, 2026)",
-    note: "Completed a three-month foundational training programme and currently assigned to a team. Project responsibilities and production contributions have not yet started.",
+    status: "Joined July 1, 2026",
+    note: "Completed foundational engineering training. Currently assigned to an automation team; production contributions have not started yet.",
   },
   education: {
-    degree: "Bachelor of Technology",
-    specialization: "Computer Science and Engineering (Artificial Intelligence)",
+    degree: "B.Tech",
+    specialization: "Computer Science & Engineering (Artificial Intelligence)",
     institution: "Mar Baselios College of Engineering and Technology (Autonomous)",
     graduationDate: "May 2026",
     status: "Graduated",
   },
   hero: {
-    smallIntro: "HELLO, I'M AKASH PR",
-    headline: "I build intelligent systems that automate, analyze and solve real-world problems.",
+    headline: "Automation Engineer building deterministic pipelines, AI agents, and practical systems.",
     description:
-      "I'm an Automation Engineer with a background in Artificial Intelligence and Data Science. I enjoy building intelligent automation workflows, AI-powered applications and data-driven solutions that turn complex problems into practical systems.",
+      "I work at the boundary where software automation meets applied AI. 10 months of enterprise AI research at Acsia Technologies (Teams agents, LlamaGuard safety, AST tools), computer vision sports analytics at Icore Pioneer, and currently an Automation Engineer at Equifax.",
     identityTags: [
       "Automation Engineering",
-      "Generative AI & Agentic Systems",
-      "Data Science & Machine Learning",
+      "Agentic AI & RAG",
+      "Data Science & Computer Vision",
     ],
   },
   quickIntro: {
-    text: "I'm interested in the intersection of automation, artificial intelligence and data science. From developing LLM-powered agents and computer vision systems to building intelligent workflows, I enjoy exploring how technology can make complex processes simpler and more efficient.",
+    text: "I build software that removes manual friction from complex processes. Whether that means isolating mathematical calculations from probabilistic LLMs, orchestrating multi-agent state machines, or tracking high-speed objects in video feeds, I focus on systems that run predictably.",
     bioParagraphs: [
-      "I'm a Computer Science graduate specializing in Artificial Intelligence, currently working as an Automation Engineer at Equifax.",
-      "My experience includes developing Generative AI applications, agentic workflows, LLM guardrails, retrieval-augmented generation systems, machine learning models and computer vision applications.",
-      "During my time at Acsia Technologies, I worked on enterprise-oriented AI solutions, including Microsoft Teams automation agents, AI-powered risk analysis and automated code documentation.",
-      "I enjoy understanding how systems work, identifying repetitive or complex processes and developing practical solutions using software, automation and AI.",
+      "I am an Automation Engineer at Equifax and a Computer Science graduate specializing in Artificial Intelligence (B.Tech 2026).",
+      "During my 10-month AI research internship at Acsia Technologies, I built enterprise workflow automation tools: a Microsoft Teams agent extracting action items into Microsoft To Do, AST-based C++ comment and unit test generators, and input/output guardrails using LlamaGuard.",
+      "Before that, I worked on computer vision for sports analytics at Icore Pioneer (high-speed shuttlecock tracking using TrackNet and YOLO), and completed multimodal AI training with the Intel Unnati programme.",
+      "I value deterministic architecture over hype: probabilistic models for parsing and language, rule-based engines for math and compliance, and clean interfaces between them.",
     ],
     corePillars: [
       {
-        title: "Intelligent Automation",
-        description: "Designing deterministic and agentic pipelines that streamline multi-system workflows and eliminate manual overhead.",
+        title: "Deterministic Automation",
+        description: "Hardcoded rule engines and state machines where math, money, or compliance cannot tolerate hallucinations.",
         icon: "Cpu",
       },
       {
-        title: "Generative & Agentic AI",
-        description: "Architecting multi-agent orchestrations, RAG pipelines, and strict safety guardrails using LlamaGuard and Guardrails AI.",
+        title: "Agentic Systems & Guardrails",
+        description: "LangGraph state graphs, RAG pipelines, and dual-phase input/output validation with LlamaGuard and Guardrails AI.",
         icon: "Bot",
       },
       {
-        title: "Data Science & Vision",
-        description: "Deriving actionable insights through statistical modeling, clustering, and deep learning-based visual tracking systems.",
+        title: "Data & Computer Vision",
+        description: "Frame-by-frame object tracking (TrackNet/YOLO), feature engineering, and statistical clustering (Random Forest, K-Means).",
         icon: "BarChart3",
       },
     ],

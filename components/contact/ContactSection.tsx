@@ -9,8 +9,6 @@ import {
   Send, 
   CheckCircle2, 
   MapPin, 
-  Terminal, 
-  MessageSquare,
   AlertCircle
 } from "lucide-react";
 import { profileData } from "@/data/profile";
@@ -28,209 +26,191 @@ export default function ContactSection() {
     e.preventDefault();
     if (!formData.email || !formData.message) return;
 
-    // Compose genuine mailto URL
     const mailtoSubject = encodeURIComponent(formData.subject || `Inquiry from Portfolio - ${formData.name}`);
     const mailtoBody = encodeURIComponent(
       `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
     );
     const mailtoUrl = `mailto:${profileData.email}?subject=${mailtoSubject}&body=${mailtoBody}`;
 
-    // Open user's email client with pre-filled content
     window.open(mailtoUrl, "_blank");
     setDispatched(true);
   };
 
   return (
-    <section id="contact" className="py-20 relative bg-[#070b14] border-t border-white/[0.06]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          {/* Left Column: Direct Channels & Information */}
-          <div className="lg:col-span-5 space-y-6">
+    <section id="contact" className="py-16 sm:py-20 bg-[#121316] border-b border-[#262930]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+          {/* Left Column: Information & Channels */}
+          <div className="lg:col-span-5 space-y-5">
             <div>
-              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-md bg-sky-500/10 border border-sky-500/20 text-sky-400 font-mono text-xs mb-3">
-                <Terminal className="w-3.5 h-3.5" />
-                <span>LET&apos;S CONNECT</span>
+              <div className="text-xs font-mono text-amber mb-2">
+                [CONTACT // DIRECT CHANNELS]
               </div>
-              <h2 className="text-3xl sm:text-4xl font-heading font-bold text-white tracking-tight">
-                Let&apos;s build something meaningful.
+              <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                Let&apos;s discuss systems & automation.
               </h2>
-              <p className="text-slate-300 text-sm sm:text-base mt-3 leading-relaxed">
-                I&apos;m always interested in discussing automation, AI engineering, data science and interesting technical challenges.
+              <p className="text-slate-300 text-sm mt-2 leading-relaxed">
+                I am interested in discussions around enterprise automation, agentic workflows, LLM safety pipelines, and data systems.
               </p>
             </div>
 
+            {/* Currently Seeking Status */}
+            <div className="p-3.5 rounded bg-[#181a1f] border border-[#262930] text-xs space-y-1">
+              <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wide">
+                Currently Seeking
+              </div>
+              <div className="text-slate-200 font-medium flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-signal-green inline-block"></span>
+                <span>{profileData.seeking}</span>
+              </div>
+            </div>
+
             {/* Direct Channel Cards */}
-            <div className="space-y-3 pt-2">
-              {/* Email */}
+            <div className="space-y-2 pt-1 text-xs">
               <a
                 href={`mailto:${profileData.email}`}
-                className="p-4 rounded-xl bg-[#0c1220] border border-white/[0.08] hover:border-sky-500/40 transition-all flex items-center justify-between group"
+                className="p-3 rounded bg-[#181a1f] border border-[#262930] hover:border-amber transition-colors flex items-center justify-between"
               >
-                <div className="flex items-center space-x-3">
-                  <div className="w-9 h-9 rounded-lg bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400">
-                    <Mail className="w-4 h-4" />
-                  </div>
+                <div className="flex items-center space-x-2.5">
+                  <Mail className="w-4 h-4 text-amber" />
                   <div>
-                    <span className="text-[10px] font-mono text-slate-400 block uppercase">
-                      DIRECT EMAIL
-                    </span>
-                    <span className="text-xs sm:text-sm font-mono font-bold text-white group-hover:text-sky-300 transition-colors">
-                      {profileData.email}
-                    </span>
+                    <span className="text-[10px] font-mono text-slate-400 block uppercase">Email</span>
+                    <span className="font-semibold text-slate-200">{profileData.email}</span>
                   </div>
                 </div>
-                <ArrowUpRight className="w-4 h-4 text-slate-400 group-hover:text-sky-400 transition-colors" />
+                <ArrowUpRight className="w-4 h-4 text-slate-400" />
               </a>
 
-              {/* LinkedIn */}
               <a
                 href={profileData.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-4 rounded-xl bg-[#0c1220] border border-white/[0.08] hover:border-sky-500/40 transition-all flex items-center justify-between group"
+                className="p-3 rounded bg-[#181a1f] border border-[#262930] hover:border-amber transition-colors flex items-center justify-between"
               >
-                <div className="flex items-center space-x-3">
-                  <div className="w-9 h-9 rounded-lg bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400">
-                    <Linkedin className="w-4 h-4" />
-                  </div>
+                <div className="flex items-center space-x-2.5">
+                  <Linkedin className="w-4 h-4 text-amber" />
                   <div>
-                    <span className="text-[10px] font-mono text-slate-400 block uppercase">
-                      PROFESSIONAL NETWORK
-                    </span>
-                    <span className="text-xs sm:text-sm font-mono font-bold text-white group-hover:text-sky-300 transition-colors">
-                      linkedin.com/in/akashpr715
-                    </span>
+                    <span className="text-[10px] font-mono text-slate-400 block uppercase">LinkedIn</span>
+                    <span className="font-semibold text-slate-200">linkedin.com/in/akashpr715</span>
                   </div>
                 </div>
-                <ArrowUpRight className="w-4 h-4 text-slate-400 group-hover:text-sky-400 transition-colors" />
+                <ArrowUpRight className="w-4 h-4 text-slate-400" />
               </a>
 
-              {/* GitHub */}
               <a
                 href={profileData.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-4 rounded-xl bg-[#0c1220] border border-white/[0.08] hover:border-sky-500/40 transition-all flex items-center justify-between group"
+                className="p-3 rounded bg-[#181a1f] border border-[#262930] hover:border-amber transition-colors flex items-center justify-between"
               >
-                <div className="flex items-center space-x-3">
-                  <div className="w-9 h-9 rounded-lg bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400">
-                    <Github className="w-4 h-4" />
-                  </div>
+                <div className="flex items-center space-x-2.5">
+                  <Github className="w-4 h-4 text-amber" />
                   <div>
-                    <span className="text-[10px] font-mono text-slate-400 block uppercase">
-                      SOURCE CODE & REPOSITORIES
-                    </span>
-                    <span className="text-xs sm:text-sm font-mono font-bold text-white group-hover:text-sky-300 transition-colors">
-                      github.com/AKASHPR715
-                    </span>
+                    <span className="text-[10px] font-mono text-slate-400 block uppercase">GitHub</span>
+                    <span className="font-semibold text-slate-200">github.com/AKASHPR715</span>
                   </div>
                 </div>
-                <ArrowUpRight className="w-4 h-4 text-slate-400 group-hover:text-sky-400 transition-colors" />
+                <ArrowUpRight className="w-4 h-4 text-slate-400" />
               </a>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.04] text-xs font-mono text-slate-400 flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>Based in Kerala, India &bull; Open to collaborative engineering discussions</span>
+            <div className="text-xs text-slate-400 flex items-center gap-1.5 font-mono">
+              <MapPin className="w-3.5 h-3.5 text-amber" />
+              <span>Location: Kerala, India · Equifax Bangalore team assignment</span>
             </div>
           </div>
 
-          {/* Right Column: Transparent Contact Dispatch Form */}
+          {/* Right Column: Direct Mailto Dispatch */}
           <div className="lg:col-span-7">
-            <div className="p-6 sm:p-8 rounded-2xl bg-[#0c1220] border border-white/[0.08] shadow-2xl">
-              <div className="pb-4 mb-6 border-b border-white/[0.06] flex items-center justify-between">
+            <div className="p-5 sm:p-6 rounded bg-[#181a1f] border border-[#262930] space-y-4">
+              <div className="pb-3 border-b border-[#262930] flex items-center justify-between">
                 <div>
-                  <h3 className="text-base font-bold text-white font-mono flex items-center gap-2">
-                    <MessageSquare className="w-4 h-4 text-sky-400" />
-                    SEND DIRECT INQUIRY
+                  <h3 className="text-sm font-semibold text-white">
+                    Send Direct Message
                   </h3>
-                  <p className="text-xs text-slate-400 font-mono mt-0.5">
-                    Prepares your message and opens your default mail client directly.
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    Pre-fills your inquiry directly into your email client.
                   </p>
                 </div>
-                <span className="text-[10px] font-mono text-sky-400 bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/20">
-                  SECURE MAILTO ROUTING
+                <span className="text-[10px] font-mono text-slate-400 bg-[#121316] px-2 py-0.5 rounded border border-[#262930]">
+                  DIRECT MAILTO
                 </span>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-mono text-slate-300 block">
-                      Your Name <span className="text-sky-400">*</span>
+              <form onSubmit={handleSubmit} className="space-y-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <label className="text-xs text-slate-300 block">
+                      Name
                     </label>
                     <input
                       type="text"
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="e.g. Alex Chen"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#080d18] border border-white/10 text-white text-xs font-mono focus:outline-none focus:border-sky-400 transition-colors"
+                      placeholder="Alex Chen"
+                      className="w-full px-3 py-2 rounded bg-[#121316] border border-[#262930] text-white text-xs focus:outline-none focus:border-amber transition-colors"
                     />
                   </div>
 
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-mono text-slate-300 block">
-                      Email Address <span className="text-sky-400">*</span>
+                  <div className="space-y-1">
+                    <label className="text-xs text-slate-300 block">
+                      Email
                     </label>
                     <input
                       type="email"
                       required
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="alex@organization.com"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#080d18] border border-white/10 text-white text-xs font-mono focus:outline-none focus:border-sky-400 transition-colors"
+                      placeholder="alex@company.com"
+                      className="w-full px-3 py-2 rounded bg-[#121316] border border-[#262930] text-white text-xs focus:outline-none focus:border-amber transition-colors"
                     />
                   </div>
                 </div>
 
-                <div className="space-y-1.5">
-                  <label className="text-xs font-mono text-slate-300 block">
-                    Subject / Project Context
+                <div className="space-y-1">
+                  <label className="text-xs text-slate-300 block">
+                    Subject / Topic
                   </label>
                   <input
                     type="text"
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    placeholder="e.g. AI Automation & Collaboration"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#080d18] border border-white/10 text-white text-xs font-mono focus:outline-none focus:border-sky-400 transition-colors"
+                    placeholder="Automation Engineering / Role Discussion"
+                    className="w-full px-3 py-2 rounded bg-[#121316] border border-[#262930] text-white text-xs focus:outline-none focus:border-amber transition-colors"
                   />
                 </div>
 
-                <div className="space-y-1.5">
-                  <label className="text-xs font-mono text-slate-300 block">
-                    Message <span className="text-sky-400">*</span>
+                <div className="space-y-1">
+                  <label className="text-xs text-slate-300 block">
+                    Message
                   </label>
                   <textarea
                     required
                     rows={4}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="Describe your technical project, recruitment inquiry, or engineering collaboration idea..."
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#080d18] border border-white/10 text-white text-xs font-mono focus:outline-none focus:border-sky-400 transition-colors resize-none"
+                    placeholder="Provide details about your role, project, or technical question..."
+                    className="w-full px-3 py-2 rounded bg-[#121316] border border-[#262930] text-white text-xs focus:outline-none focus:border-amber transition-colors resize-none"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full flex items-center justify-center space-x-2 py-3 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold font-mono text-xs transition-all shadow-lg shadow-sky-500/20 active:scale-95"
+                  className="w-full flex items-center justify-center space-x-2 py-2.5 rounded bg-amber hover:bg-amber-dark text-[#121316] font-semibold text-xs transition-colors"
                 >
                   <Send className="w-3.5 h-3.5" />
-                  <span>TRANSMIT VIA EMAIL CLIENT</span>
+                  <span>Open in Mail Client</span>
                 </button>
 
-                {/* Honest Disclosure Notice */}
-                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.05] text-[11px] font-mono text-slate-400 flex items-start gap-2">
-                  <AlertCircle className="w-3.5 h-3.5 text-sky-400 shrink-0 mt-0.5" />
-                  <span>
-                    <strong>Privacy & Integrity:</strong> Submitting formats your message into a pre-filled direct email to <code>akashpr715@gmail.com</code>. No background tracking or third-party CRM server is intercepting your message.
-                  </span>
+                <div className="text-[11px] text-slate-400 font-mono">
+                  No third-party forms or trackers. Opens your system mail client with <code>akashpr715@gmail.com</code>.
                 </div>
 
                 {dispatched && (
-                  <div className="p-3 rounded-xl bg-emerald-950/30 border border-emerald-500/40 text-xs font-mono text-emerald-300 flex items-center gap-2 animate-in fade-in">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                    <span>Email client launched! If your email app did not open, click the direct email link on the left.</span>
+                  <div className="p-2.5 rounded bg-[#121316] border border-signal-greenBorder text-xs font-mono text-signal-green flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4" />
+                    <span>Email client triggered. If it didn&apos;t open, email directly at akashpr715@gmail.com</span>
                   </div>
                 )}
               </form>

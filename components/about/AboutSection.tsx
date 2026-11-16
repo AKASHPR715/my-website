@@ -1,21 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { 
-  GraduationCap, 
-  Briefcase, 
-  Calendar, 
-  MapPin, 
-  Download, 
-  FileText, 
-  CheckCircle, 
-  ArrowUpRight, 
-  Cpu, 
-  Terminal,
-  ShieldCheck,
-  Brain
-} from "lucide-react";
+import { GraduationCap, ArrowUpRight, FileText } from "lucide-react";
 import { profileData } from "@/data/profile";
 import ResumeModal from "@/components/resume/ResumeModal";
 
@@ -52,162 +38,106 @@ export default function AboutSection() {
       title: "Computer Vision & NLP Internships",
       highlight: "Icore Pioneer & Nestsoft Technologies",
       description: "Developed TrackNet high-speed badminton shuttlecock tracking (>90% accuracy) and player pose estimation at Icore; built text preprocessing and summarization pipelines at Nestsoft.",
-      badge: "Dual Internship",
+      badge: "Internships",
       active: false,
     },
     {
       year: "2022",
       title: "Commenced B.Tech in Artificial Intelligence",
       highlight: "Mar Baselios College of Engineering (MBCET)",
-      description: "Began rigorous engineering studies in Computer Science and Engineering with specialization in Artificial Intelligence.",
-      badge: "Academic",
+      description: "Began engineering studies in Computer Science and Engineering with specialization in Artificial Intelligence.",
+      badge: "Degree",
       active: false,
     },
   ];
 
   return (
     <>
-      <section id="about" className="py-20 relative bg-[#090d17] border-t border-white/[0.06]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Section Header */}
-          <div className="mb-14">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-md bg-sky-500/10 border border-sky-500/20 text-sky-400 font-mono text-xs mb-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
-              <span>BIOGRAPHY & BACKGROUND</span>
+      <section id="about" className="py-16 sm:py-20 bg-[#121316] border-b border-[#262930]">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          {/* Header */}
+          <div className="mb-10 pb-6 border-b border-[#262930]">
+            <div className="text-xs font-mono text-amber mb-2">
+              [ABOUT // PROFESSIONAL BACKGROUND]
             </div>
-            <h2 className="text-3xl sm:text-4xl font-heading font-bold text-white tracking-tight">
-              Engineering with Purpose, Precision & Depth
+            <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+              Engineering Background & Timeline
             </h2>
-            <p className="text-slate-400 text-sm sm:text-base max-w-2xl mt-2 font-mono">
-              Bridging deterministic software automation with modern agentic and generative AI.
+            <p className="text-slate-400 text-sm max-w-2xl mt-2 leading-relaxed">
+              Software automation, AI agents, and computer vision systems built with honest architectural separation.
             </p>
           </div>
 
-          {/* Two-Column Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            {/* Left Column: Biography, Interests, Education */}
-            <div className="lg:col-span-7 space-y-8">
-              {/* Detailed Narrative */}
-              <div className="space-y-4 text-slate-300 text-base leading-relaxed">
+          {/* Two-Column Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            {/* Left Column: Narrative & Education */}
+            <div className="lg:col-span-7 space-y-6">
+              <div className="space-y-3.5 text-sm text-slate-300 leading-relaxed">
                 {profileData.quickIntro.bioParagraphs.map((paragraph, idx) => (
-                  <p key={idx} className="text-slate-300 leading-relaxed">
-                    {paragraph}
-                  </p>
+                  <p key={idx}>{paragraph}</p>
                 ))}
               </div>
 
               {/* Education Box */}
-              <div className="p-6 rounded-2xl bg-[#0e1524] border border-white/[0.08] relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-sky-500/5 rounded-full blur-2xl pointer-events-none" />
-                <div className="flex items-start space-x-4">
-                  <div className="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400 shrink-0">
-                    <GraduationCap className="w-5 h-5" />
-                  </div>
-                  <div className="space-y-1.5">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="font-mono text-xs text-sky-400 font-semibold uppercase tracking-wider">
-                        DEGREE & EDUCATION
-                      </span>
-                      <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-                        {profileData.education.status} May 2026
-                      </span>
-                    </div>
-                    <h3 className="text-base font-bold text-white">
-                      {profileData.education.degree} in {profileData.education.specialization}
-                    </h3>
-                    <p className="text-sm text-slate-400">
-                      {profileData.education.institution}
-                    </p>
-                    <p className="text-xs text-slate-400 font-mono pt-1">
-                      Focus on Intelligent Systems, Machine Learning, Deep Neural Architectures, and Autonomous Agents.
-                    </p>
-                  </div>
+              <div className="p-4 rounded bg-[#181a1f] border border-[#262930] flex items-start space-x-3.5">
+                <div className="w-8 h-8 rounded bg-[#121316] border border-[#262930] flex items-center justify-center text-amber shrink-0 mt-0.5">
+                  <GraduationCap className="w-4 h-4" />
                 </div>
-              </div>
-
-              {/* Professional Interests Triad */}
-              <div className="space-y-3">
-                <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400">
-                  CORE TECHNICAL ORIENTATIONS
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  {profileData.quickIntro.corePillars.map((pillar) => (
-                    <div
-                      key={pillar.title}
-                      className="p-4 rounded-xl bg-[#0b101c] border border-white/[0.06] hover:border-sky-500/30 transition-colors"
-                    >
-                      <h4 className="text-xs font-mono font-bold text-sky-300 mb-1">
-                        {pillar.title}
-                      </h4>
-                      <p className="text-xs text-slate-400 leading-relaxed">
-                        {pillar.description}
-                      </p>
-                    </div>
-                  ))}
+                <div className="space-y-1 text-xs">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-slate-400 uppercase">Education</span>
+                    <span className="font-mono text-amber">Graduated May 2026</span>
+                  </div>
+                  <div className="text-sm font-semibold text-white">
+                    {profileData.education.degree} in {profileData.education.specialization}
+                  </div>
+                  <div className="text-slate-400">
+                    {profileData.education.institution}
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Right Column: Timeline & Career Path */}
-            <div className="lg:col-span-5 space-y-6">
-              <div className="p-6 rounded-2xl bg-[#0c1220] border border-white/[0.08]">
-                <div className="flex items-center justify-between pb-4 mb-6 border-b border-white/[0.06]">
-                  <h3 className="text-xs font-mono font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
-                    <Calendar className="w-4 h-4 text-sky-400" />
-                    CAREER CHRONOLOGY
-                  </h3>
-                  <button
-                    onClick={() => setResumeOpen(true)}
-                    className="text-xs font-mono text-sky-400 hover:text-sky-300 flex items-center gap-1"
-                  >
-                    <span>PDF Resume</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </button>
-                </div>
+            {/* Right Column: Career Chronology */}
+            <div className="lg:col-span-5 p-5 rounded bg-[#181a1f] border border-[#262930] space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-[#262930] text-xs font-mono">
+                <span className="text-slate-200 font-semibold uppercase">Chronology</span>
+                <button
+                  onClick={() => setResumeOpen(true)}
+                  className="text-amber hover:underline inline-flex items-center space-x-1"
+                >
+                  <span>Resume</span>
+                  <ArrowUpRight className="w-3 h-3" />
+                </button>
+              </div>
 
-                {/* Timeline Stream */}
-                <div className="relative pl-6 space-y-6 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-[1px] before:bg-white/10">
-                  {timelineMilestones.map((m, idx) => (
-                    <div key={idx} className="relative group">
-                      {/* Timeline dot */}
-                      <div
-                        className={`absolute -left-6 top-1 w-3 h-3 rounded-full border-2 ${
-                          m.active
-                            ? "bg-sky-400 border-sky-300 ring-4 ring-sky-500/20"
-                            : "bg-[#0c1220] border-slate-600 group-hover:border-sky-400"
-                        } transition-colors`}
-                      />
-
-                      <div className="space-y-1">
-                        <div className="flex items-center justify-between">
-                          <span className="font-mono text-xs font-bold text-sky-400">
-                            {m.year}
-                          </span>
-                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.05] text-slate-300 border border-white/[0.08]">
-                            {m.badge}
-                          </span>
-                        </div>
-                        <h4 className="text-xs font-bold text-white">
-                          {m.highlight}
-                        </h4>
-                        <p className="text-xs text-slate-400 leading-relaxed">
-                          {m.description}
-                        </p>
-                      </div>
+              <div className="space-y-4">
+                {timelineMilestones.map((m, idx) => (
+                  <div key={idx} className="space-y-1 text-xs border-l-2 border-[#262930] pl-3 py-0.5">
+                    <div className="flex items-center justify-between font-mono">
+                      <span className="text-amber font-semibold">{m.year}</span>
+                      <span className="text-[10px] text-slate-400 bg-[#121316] px-1.5 py-0.5 rounded border border-[#262930]">
+                        {m.badge}
+                      </span>
                     </div>
-                  ))}
-                </div>
+                    <div className="font-semibold text-white">
+                      {m.highlight}
+                    </div>
+                    <p className="text-slate-400 leading-relaxed">
+                      {m.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
 
-                {/* Download resume CTA inside card */}
-                <div className="mt-8 pt-4 border-t border-white/[0.06]">
-                  <button
-                    onClick={() => setResumeOpen(true)}
-                    className="w-full flex items-center justify-center space-x-2 py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.08] text-slate-200 border border-white/[0.1] text-xs font-mono transition-all"
-                  >
-                    <Download className="w-3.5 h-3.5 text-sky-400" />
-                    <span>Download Complete Resume</span>
-                  </button>
-                </div>
+              <div className="pt-3 border-t border-[#262930]">
+                <button
+                  onClick={() => setResumeOpen(true)}
+                  className="w-full flex items-center justify-center space-x-2 py-2 rounded bg-[#121316] hover:bg-[#22252c] text-slate-200 border border-[#262930] hover:border-amber text-xs font-mono transition-colors"
+                >
+                  <FileText className="w-3.5 h-3.5 text-amber" />
+                  <span>Inspect Complete Resume</span>
+                </button>
               </div>
             </div>
           </div>

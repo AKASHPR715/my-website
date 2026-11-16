@@ -5,8 +5,6 @@ import {
   X, 
   Download, 
   Printer, 
-  ExternalLink, 
-  CheckCircle2, 
   Briefcase, 
   GraduationCap, 
   Award, 
@@ -37,46 +35,45 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
   };
 
   const handleDownload = () => {
-    // Generate an instant structured clean HTML/text download or trigger print-to-pdf
     setDownloadSuccess(true);
     setTimeout(() => setDownloadSuccess(false), 3000);
     window.print();
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-150">
       <div 
-        className="relative w-full max-w-4xl bg-[#0f1420] border border-white/10 rounded-2xl shadow-2xl text-slate-200 overflow-hidden flex flex-col max-h-[92vh]"
+        className="relative w-full max-w-4xl bg-[#181a1f] border border-[#262930] rounded shadow-2xl text-slate-200 overflow-hidden flex flex-col max-h-[92vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Control Bar */}
-        <div className="flex items-center justify-between px-6 py-4 bg-[#131b2c] border-b border-white/[0.08]">
-          <div className="flex items-center space-x-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
-            <span className="font-mono text-xs text-slate-300 font-semibold tracking-wider uppercase">
-              Curriculum Vitae &bull; Akash PR
+        <div className="flex items-center justify-between px-5 py-3.5 bg-[#121316] border-b border-[#262930]">
+          <div className="flex items-center space-x-2 text-xs font-mono">
+            <span className="w-2 h-2 rounded-full bg-signal-green"></span>
+            <span className="text-slate-300 font-semibold uppercase">
+              Curriculum Vitae // Akash PR
             </span>
           </div>
 
           <div className="flex items-center space-x-2">
             <button
               onClick={handlePrint}
-              className="flex items-center space-x-1.5 px-3 py-1.5 text-xs font-mono rounded-lg bg-white/[0.06] hover:bg-white/[0.1] text-slate-200 border border-white/[0.08] transition-colors"
+              className="flex items-center space-x-1.5 px-3 py-1.5 text-xs font-mono rounded bg-[#181a1f] hover:bg-[#22252c] text-slate-200 border border-[#262930] transition-colors"
               title="Print / Save as PDF"
             >
-              <Printer className="w-3.5 h-3.5 text-sky-400" />
+              <Printer className="w-3.5 h-3.5 text-amber" />
               <span className="hidden sm:inline">Print / PDF</span>
             </button>
             <button
               onClick={handleDownload}
-              className="flex items-center space-x-1.5 px-3 py-1.5 text-xs font-mono rounded-lg bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-500/40 transition-colors"
+              className="flex items-center space-x-1.5 px-3 py-1.5 text-xs font-mono rounded bg-amber hover:bg-amber-dark text-[#121316] font-semibold transition-colors"
             >
               <Download className="w-3.5 h-3.5" />
-              <span>{downloadSuccess ? "Preparing PDF..." : "Download Resume"}</span>
+              <span>{downloadSuccess ? "Opening Dialog..." : "Save PDF"}</span>
             </button>
             <button
               onClick={onClose}
-              className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.08] transition-colors ml-2"
+              className="p-1 rounded text-slate-400 hover:text-white hover:bg-[#22252c] transition-colors ml-1"
               aria-label="Close modal"
             >
               <X className="w-5 h-5" />
@@ -85,67 +82,58 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
         </div>
 
         {/* Scrollable Document Body */}
-        <div className="overflow-y-auto p-6 sm:p-10 space-y-8 bg-[#0b101b] print:bg-white print:text-black print:p-0">
+        <div className="overflow-y-auto p-6 sm:p-8 space-y-6 bg-[#181a1f] print:bg-white print:text-black print:p-0">
           {/* Header */}
-          <div className="border-b border-white/[0.08] pb-6 print:border-black">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="border-b border-[#262930] pb-5 print:border-black">
+            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
               <div>
-                <h1 className="text-3xl font-heading font-bold text-white print:text-black">
+                <h1 className="text-2xl font-bold text-white print:text-black">
                   {profileData.name}
                 </h1>
-                <p className="text-sky-400 font-mono text-sm mt-1 print:text-sky-700 font-medium">
+                <p className="text-amber font-mono text-xs mt-1 print:text-amber-800 font-medium">
                   {profileData.headline}
+                </p>
+                <p className="text-xs text-slate-400 mt-1 max-w-lg print:text-gray-700">
+                  {profileData.hero.description}
                 </p>
               </div>
 
-              <div className="flex flex-col text-xs font-mono text-slate-400 print:text-gray-700 space-y-1">
+              <div className="flex flex-col text-xs font-mono text-slate-400 print:text-gray-700 space-y-1 shrink-0">
                 <span className="flex items-center gap-1.5">
-                  <MapPin className="w-3.5 h-3.5 text-sky-400" />
+                  <MapPin className="w-3.5 h-3.5 text-amber" />
                   {profileData.location}
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <Mail className="w-3.5 h-3.5 text-sky-400" />
+                  <Mail className="w-3.5 h-3.5 text-amber" />
                   {profileData.email}
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <Linkedin className="w-3.5 h-3.5 text-sky-400" />
+                  <Linkedin className="w-3.5 h-3.5 text-amber" />
                   linkedin.com/in/akashpr715
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <Github className="w-3.5 h-3.5 text-sky-400" />
+                  <Github className="w-3.5 h-3.5 text-amber" />
                   github.com/AKASHPR715
                 </span>
               </div>
             </div>
           </div>
 
-          {/* Professional Summary */}
-          <div>
-            <h2 className="text-xs font-mono uppercase tracking-widest text-sky-400 mb-2 font-bold flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
-              Professional Summary
-            </h2>
-            <p className="text-sm text-slate-300 leading-relaxed print:text-gray-800">
-              {profileData.hero.description}
-            </p>
-          </div>
-
           {/* Education */}
           <div>
-            <h2 className="text-xs font-mono uppercase tracking-widest text-sky-400 mb-3 font-bold flex items-center gap-2">
-              <GraduationCap className="w-4 h-4" />
+            <h2 className="text-xs font-mono uppercase tracking-wider text-amber mb-2 font-semibold">
               Education
             </h2>
-            <div className="bg-[#121826] border border-white/[0.06] rounded-xl p-4 print:bg-gray-50 print:border-gray-200">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between text-sm">
-                <span className="font-bold text-white print:text-black">
+            <div className="bg-[#121316] border border-[#262930] rounded p-3 text-xs print:bg-gray-50 print:border-gray-200">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between">
+                <span className="font-semibold text-white print:text-black">
                   {profileData.education.degree} in {profileData.education.specialization}
                 </span>
-                <span className="font-mono text-xs text-sky-400 print:text-sky-700 font-medium">
+                <span className="font-mono text-amber print:text-amber-800">
                   Graduated {profileData.education.graduationDate}
                 </span>
               </div>
-              <p className="text-xs text-slate-400 mt-1 print:text-gray-600">
+              <p className="text-slate-400 mt-0.5 print:text-gray-600">
                 {profileData.education.institution}
               </p>
             </div>
@@ -153,33 +141,32 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
 
           {/* Professional Experience */}
           <div>
-            <h2 className="text-xs font-mono uppercase tracking-widest text-sky-400 mb-3 font-bold flex items-center gap-2">
-              <Briefcase className="w-4 h-4" />
+            <h2 className="text-xs font-mono uppercase tracking-wider text-amber mb-2 font-semibold">
               Professional Experience
             </h2>
-            <div className="space-y-4">
+            <div className="space-y-3">
               {experienceData.map((exp) => (
                 <div
                   key={exp.id}
-                  className="bg-[#121826] border border-white/[0.06] rounded-xl p-4 print:bg-gray-50 print:border-gray-200 space-y-2"
+                  className="bg-[#121316] border border-[#262930] rounded p-3 text-xs print:bg-gray-50 print:border-gray-200 space-y-1.5"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between">
                     <div>
-                      <h3 className="text-sm font-bold text-white print:text-black">
-                        {exp.role} <span className="text-sky-400">&bull; {exp.company}</span>
-                      </h3>
-                      <p className="text-xs text-slate-400 font-mono">
-                        {exp.type} &bull; {exp.location}
-                      </p>
+                      <span className="font-semibold text-white print:text-black">
+                        {exp.role} · {exp.company}
+                      </span>
+                      <span className="text-slate-400 font-mono ml-2">
+                        ({exp.location})
+                      </span>
                     </div>
-                    <span className="font-mono text-xs text-slate-300 bg-white/[0.05] px-2 py-1 rounded mt-1 sm:mt-0 w-fit">
+                    <span className="font-mono text-slate-400 bg-[#181a1f] px-2 py-0.5 rounded border border-[#262930] w-fit mt-1 sm:mt-0">
                       {exp.period}
                     </span>
                   </div>
 
-                  <p className="text-xs text-slate-300 italic">{exp.description}</p>
+                  <p className="text-slate-300 italic">{exp.description}</p>
 
-                  <ul className="list-disc list-inside text-xs text-slate-300 space-y-1 print:text-gray-800">
+                  <ul className="list-disc list-inside text-slate-300 space-y-1 print:text-gray-800 pt-1">
                     {exp.responsibilities.map((resp, i) => (
                       <li key={i} className="leading-relaxed">
                         {resp}
@@ -187,11 +174,11 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
                     ))}
                   </ul>
 
-                  <div className="flex flex-wrap gap-1.5 pt-1">
+                  <div className="flex flex-wrap gap-1 pt-1">
                     {exp.skills.map((s) => (
                       <span
                         key={s}
-                        className="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-500/10 text-sky-300 border border-sky-500/20"
+                        className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#181a1f] text-slate-300 border border-[#262930]"
                       >
                         {s}
                       </span>
@@ -202,91 +189,57 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
             </div>
           </div>
 
-          {/* Key Featured Projects */}
+          {/* Featured Projects */}
           <div>
-            <h2 className="text-xs font-mono uppercase tracking-widest text-sky-400 mb-3 font-bold flex items-center gap-2">
-              <Code2 className="w-4 h-4" />
-              Featured Projects & Systems
+            <h2 className="text-xs font-mono uppercase tracking-wider text-amber mb-2 font-semibold">
+              Selected Systems Engineered
             </h2>
-            <div className="space-y-3">
+            <div className="space-y-2">
               {projectsData.slice(0, 3).map((proj) => (
                 <div
                   key={proj.id}
-                  className="bg-[#121826] border border-white/[0.06] rounded-xl p-4 print:bg-gray-50 print:border-gray-200 space-y-2"
+                  className="bg-[#121316] border border-[#262930] rounded p-3 text-xs print:bg-gray-50 print:border-gray-200 space-y-1"
                 >
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between">
-                    <h3 className="text-sm font-bold text-white print:text-black">
-                      {proj.title} &mdash; <span className="text-xs font-normal text-slate-400">{proj.subtitle}</span>
-                    </h3>
-                    <span className="text-[10px] font-mono text-sky-400 border border-sky-500/30 px-2 py-0.5 rounded w-fit mt-1 sm:mt-0">
+                  <div className="flex items-center justify-between">
+                    <span className="font-semibold text-white print:text-black">
+                      {proj.title} — {proj.subtitle}
+                    </span>
+                    <span className="font-mono text-[10px] text-amber border border-amber/30 px-1.5 py-0.5 rounded">
                       {proj.category}
                     </span>
                   </div>
-
-                  <p className="text-xs text-slate-300 leading-relaxed print:text-gray-800">
+                  <p className="text-slate-300 leading-relaxed print:text-gray-800">
                     {proj.summary}
                   </p>
-
-                  <div className="flex flex-wrap gap-1.5 pt-1">
-                    {proj.tags.slice(0, 6).map((t) => (
-                      <span
-                        key={t}
-                        className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] text-slate-300 border border-white/[0.08]"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Skills Categorization */}
+          {/* Technical Skills */}
           <div>
-            <h2 className="text-xs font-mono uppercase tracking-widest text-sky-400 mb-3 font-bold flex items-center gap-2">
-              <Award className="w-4 h-4" />
+            <h2 className="text-xs font-mono uppercase tracking-wider text-amber mb-2 font-semibold">
               Technical Skill Matrix
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {skillsData.map((cat) => (
                 <div
                   key={cat.title}
-                  className="bg-[#121826] border border-white/[0.06] rounded-xl p-3.5 print:bg-gray-50 print:border-gray-200"
+                  className="bg-[#121316] border border-[#262930] rounded p-2.5 text-xs print:bg-gray-50 print:border-gray-200"
                 >
-                  <h3 className="text-xs font-mono font-bold text-slate-200 mb-2">
+                  <span className="font-mono font-semibold text-slate-300 block mb-1">
                     {cat.title}
-                  </h3>
+                  </span>
                   <div className="flex flex-wrap gap-1">
                     {cat.skills.map((s) => (
                       <span
                         key={s.name}
-                        className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.03] text-slate-300 border border-white/[0.06]"
+                        className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#181a1f] text-slate-300 border border-[#262930]"
                       >
                         {s.name}
                       </span>
                     ))}
                   </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Certifications */}
-          <div>
-            <h2 className="text-xs font-mono uppercase tracking-widest text-sky-400 mb-2 font-bold">
-              Certifications & Credentials
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-              {certificationsData.map((cert) => (
-                <div
-                  key={cert.id}
-                  className="flex items-center space-x-2 p-2 rounded bg-white/[0.02] border border-white/[0.04]"
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
-                  <span className="text-slate-300">
-                    <strong className="text-white">{cert.title}</strong> &bull; {cert.issuer}
-                  </span>
                 </div>
               ))}
             </div>

@@ -1,27 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { 
-  Brain, 
-  Workflow, 
-  BarChart2, 
-  Eye, 
-  Code2, 
-  Database, 
-  CheckCircle2, 
-  Sparkles,
-  Layers
-} from "lucide-react";
-import { skillsData, SkillCategory } from "@/data/skills";
-
-const iconMap: Record<string, any> = {
-  Brain,
-  Workflow,
-  BarChart2,
-  Eye,
-  Code2,
-  Database,
-};
+import { skillsData } from "@/data/skills";
 
 export default function SkillsGrid() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
@@ -32,30 +12,29 @@ export default function SkillsGrid() {
       : skillsData.filter((c) => c.title === selectedCategory);
 
   return (
-    <section id="skills" className="py-20 relative bg-[#080c14] border-t border-white/[0.06]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+    <section id="skills" className="py-16 sm:py-20 bg-[#121316] border-b border-[#262930]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8 pb-6 border-b border-[#262930]">
           <div>
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-md bg-sky-500/10 border border-sky-500/20 text-sky-400 font-mono text-xs mb-3">
-              <Layers className="w-3.5 h-3.5" />
-              <span>TECHNICAL CAPABILITIES</span>
+            <div className="text-xs font-mono text-amber mb-2">
+              [SKILLS // TECHNICAL CAPABILITIES]
             </div>
-            <h2 className="text-3xl sm:text-4xl font-heading font-bold text-white tracking-tight">
-              Skills & Engineering Competencies
+            <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+              Engineering Competencies
             </h2>
-            <p className="text-slate-400 text-sm sm:text-base max-w-2xl mt-2 font-mono">
-              Grouped by domain expertise without arbitrary percentage bars. Focused on practical production systems and research experience.
+            <p className="text-slate-400 text-sm max-w-2xl mt-2 leading-relaxed">
+              Grouped by functional systems domain. No arbitrary percentage bars; focused on production tools and research experience.
             </p>
           </div>
 
-          {/* Category Filter */}
-          <div className="flex flex-wrap gap-1.5 p-1 rounded-xl bg-[#0c1220] border border-white/[0.08]">
+          {/* Filter */}
+          <div className="flex flex-wrap gap-1 p-1 rounded bg-[#181a1f] border border-[#262930]">
             <button
               onClick={() => setSelectedCategory("All")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
+              className={`px-2.5 py-1 rounded text-xs transition-colors ${
                 selectedCategory === "All"
-                  ? "bg-sky-500 text-slate-950 font-bold"
+                  ? "bg-[#22252c] text-amber border border-amber/40 font-medium"
                   : "text-slate-400 hover:text-white"
               }`}
             >
@@ -65,9 +44,9 @@ export default function SkillsGrid() {
               <button
                 key={cat.title}
                 onClick={() => setSelectedCategory(cat.title)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
+                className={`px-2.5 py-1 rounded text-xs transition-colors ${
                   selectedCategory === cat.title
-                    ? "bg-sky-500 text-slate-950 font-bold"
+                    ? "bg-[#22252c] text-amber border border-amber/40 font-medium"
                     : "text-slate-400 hover:text-white"
                 }`}
               >
@@ -78,57 +57,45 @@ export default function SkillsGrid() {
         </div>
 
         {/* Skills Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {displayedCategories.map((cat) => {
-            const Icon = iconMap[cat.icon] || Brain;
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+          {displayedCategories.map((cat) => (
+            <div
+              key={cat.title}
+              className="p-4 rounded bg-[#181a1f] border border-[#262930] flex flex-col justify-between space-y-3"
+            >
+              <div>
+                <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#262930]">
+                  <h3 className="text-xs font-semibold text-white">
+                    {cat.title}
+                  </h3>
+                  <span className="text-[10px] font-mono text-slate-400">
+                    {cat.skills.length} tools
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-400 leading-relaxed mb-3">
+                  {cat.description}
+                </p>
 
-            return (
-              <div
-                key={cat.title}
-                className="p-6 rounded-2xl bg-[#0c1220] border border-white/[0.08] hover:border-sky-500/30 transition-all flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center space-x-3 mb-3">
-                    <div className="w-9 h-9 rounded-xl bg-white/[0.05] border border-white/[0.08] flex items-center justify-center text-sky-400">
-                      <Icon className="w-4 h-4" />
+                <div className="space-y-1.5">
+                  {cat.skills.map((skill) => (
+                    <div
+                      key={skill.name}
+                      className="p-2 rounded bg-[#121316] border border-[#262930] flex items-center justify-between text-xs"
+                    >
+                      <span className="font-semibold text-slate-200">
+                        {skill.name}
+                      </span>
+                      {skill.context && (
+                        <span className="text-[10px] font-mono text-slate-400 truncate max-w-[140px]">
+                          {skill.context}
+                        </span>
+                      )}
                     </div>
-                    <div>
-                      <h3 className="text-sm font-bold text-white font-mono">
-                        {cat.title}
-                      </h3>
-                      <p className="text-[11px] text-slate-400 leading-snug">
-                        {cat.description}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2 mt-4 pt-4 border-t border-white/[0.06]">
-                    {cat.skills.map((skill) => (
-                      <div
-                        key={skill.name}
-                        className="p-2.5 rounded-xl bg-[#090d18] border border-white/[0.04] flex flex-col justify-between gap-1 group hover:border-white/10 transition-colors"
-                      >
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-bold text-slate-200 group-hover:text-sky-300 transition-colors">
-                            {skill.name}
-                          </span>
-                          <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-white/[0.04] text-slate-400 border border-white/[0.06]">
-                            {skill.level}
-                          </span>
-                        </div>
-
-                        {skill.context && (
-                          <span className="text-[10px] text-slate-400 font-mono">
-                            {skill.context}
-                          </span>
-                        )}
-                      </div>
-                    ))}
-                  </div>
+                  ))}
                 </div>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
       </div>
     </section>

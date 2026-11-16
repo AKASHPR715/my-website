@@ -10,47 +10,52 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "#080c14",
+        background: "#121316",
         surface: {
-          50: "#131a29",
-          100: "#0f1624",
-          200: "#0c111c",
-          300: "#080c14",
-          border: "rgba(255, 255, 255, 0.08)",
-          hover: "rgba(255, 255, 255, 0.04)",
+          DEFAULT: "#181a1f",
+          50: "#22252c",
+          100: "#1c1f26",
+          200: "#181a1f",
+          300: "#121316",
+          border: "#262930",
+          hover: "#1f2229",
         },
-        primary: {
-          DEFAULT: "#38bdf8",
-          dark: "#0284c7",
-          light: "#7dd3fc",
+        ink: {
+          DEFAULT: "#f3f4f6",
+          muted: "#9ca3af",
+          subtle: "#6b7280",
+          faint: "#4b5563",
         },
-        accent: {
-          blue: "#3b82f6",
-          violet: "#8b5cf6",
-          indigo: "#6366f1",
-          emerald: "#10b981",
-          amber: "#f59e0b",
+        border: {
+          subtle: "#262930",
+          strong: "#373c47",
+        },
+        // Accent used ONLY for state, focus, active pipeline stages, and primary actions
+        amber: {
+          DEFAULT: "#f59e0b",
+          dark: "#d97706",
+          hover: "#b45309",
+          subtle: "rgba(245, 158, 11, 0.08)",
+          border: "rgba(245, 158, 11, 0.35)",
+        },
+        signal: {
+          green: "#22c55e",
+          greenSubtle: "rgba(34, 197, 94, 0.12)",
+          greenBorder: "rgba(34, 197, 94, 0.3)",
         },
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
-        heading: ["var(--font-space-grotesk)", "sans-serif"],
-        mono: ["var(--font-jetbrains-mono)", "monospace"],
+        sans: ["var(--font-ibm-plex-sans)", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
+        heading: ["var(--font-ibm-plex-sans)", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
+        mono: ["var(--font-ibm-plex-mono)", "ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "monospace"],
       },
-      animation: {
-        "pulse-subtle": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-        "float-slow": "float 6s ease-in-out infinite",
-        "glow-line": "glowLine 3s ease-in-out infinite",
-      },
-      keyframes: {
-        float: {
-          "0%, 100%": { transform: "translateY(0px)" },
-          "50%": { transform: "translateY(-6px)" },
-        },
-        glowLine: {
-          "0%, 100%": { opacity: "0.3" },
-          "50%": { opacity: "0.8" },
-        },
+      borderRadius: {
+        none: "0px",
+        sm: "2px",
+        DEFAULT: "4px",
+        md: "6px",
+        lg: "8px",
+        xl: "10px",
       },
     },
   },
