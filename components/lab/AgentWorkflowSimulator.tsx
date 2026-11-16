@@ -24,136 +24,138 @@ interface WorkflowStep {
   toolCall?: string;
 }
 
+// Static presets defined outside component to maintain stable references
+const PRESETS = [
+  {
+    title: "TaxMate: Multi-Agent Tax Advisory & Filing",
+    userQuery: "Evaluate Form 16 vs 26AS for AY2026-27 and recommend the optimal tax regime.",
+    nodes: [
+      {
+        id: "intake",
+        name: "User Request Ingestion",
+        role: "Gateway",
+        thought: "Sanitizing user query, verifying authenticated session, validating document tokens.",
+        toolCall: "session_verifier(user_id='USR_882', doc_ids=['F16_A', '26AS'])",
+      },
+      {
+        id: "orchestrator",
+        name: "LangGraph Orchestrator",
+        role: "State Router",
+        thought: "Decomposing task: Route to Extraction -> Deterministic Math Engine -> RAG Advisor.",
+        toolCall: "state_graph.route(state='EXTRACTION_AND_MATH')",
+      },
+      {
+        id: "research",
+        name: "Extraction & Retrieval Agent",
+        role: "Document Parser",
+        thought: "Parsed Form 16 salary (INR 14,50,000) and verified INR 1,82,000 TDS deposited in Form 26AS.",
+        toolCall: "pdf_extractor(mode='structured_pydantic')",
+      },
+      {
+        id: "analysis",
+        name: "Deterministic Tax Engine",
+        role: "Math Engine",
+        thought: "Computing Old vs New regime: Old Tax = INR 1,64,320; New Tax (115BAC) = INR 1,40,400. Delta: Savings of INR 23,920 under New Regime.",
+        toolCall: "tax_rules.evaluate_slabs(income=1450000, deductions_80c=150000)",
+      },
+      {
+        id: "response",
+        name: "Response Synthesizer",
+        role: "Artifact Generator",
+        thought: "Compiling comprehensive comparative summary and generating official ITR-1 JSON schema.",
+        toolCall: "schema_generator.compile_itr1(status='OPTIMAL_NEW_REGIME')",
+      },
+    ],
+    finalOutput: {
+      recommendedRegime: "New Tax Regime (Section 115BAC)",
+      taxLiability: "₹1,40,400 (inclusive of 4% Health & Education Cess)",
+      estimatedTaxSavings: "₹23,920 over Old Regime",
+      schemaStatus: "Validated against official ITD e-filing JSON specifications",
+    },
+  },
+  {
+    title: "Teams Intelligence: Thread to Task Sync",
+    userQuery: "Scan #core-engineering channel history from yesterday and sync all action items to Microsoft To Do.",
+    nodes: [
+      {
+        id: "intake",
+        name: "Teams Query Receiver",
+        role: "Trigger",
+        thought: "Received scheduled daily trigger to parse channel ID: ch-9941 (Engineering Release).",
+        toolCall: "ms_graph.get_delta_messages(channel_id='ch-9941', lookback_hours=24)",
+      },
+      {
+        id: "orchestrator",
+        name: "Conversation Orchestrator",
+        role: "Thread Parser",
+        thought: "Cleaned 48 raw Teams messages, filtered chat banter, constructed chronological reply hierarchies.",
+        toolCall: "thread_sanitizer.parse_replies(raw_messages=48)",
+      },
+      {
+        id: "research",
+        name: "Action Item Extractor",
+        role: "Semantic AI",
+        thought: "Extracted 3 actionable commitments: [1] Fix Swagger auth headers, [2] Benchmark LlamaGuard, [3] Deploy staging build.",
+        toolCall: "nlp.extract_action_items(confidence_threshold=0.88)",
+      },
+      {
+        id: "analysis",
+        name: "Priority & Assignee Resolver",
+        role: "Entity Matcher",
+        thought: "Mapped user tags (@alex, @priya) to Azure AD email accounts and assigned due dates.",
+        toolCall: "azure_ad.resolve_users(tags=['@alex', '@priya'])",
+      },
+      {
+        id: "response",
+        name: "Microsoft To Do Sync Agent",
+        role: "Task Writer",
+        thought: "Injected 3 prioritized tasks into Microsoft To Do with deep links back to Teams conversation.",
+        toolCall: "ms_graph.create_todo_tasks(count=3, list='Sprint 44')",
+      },
+    ],
+    finalOutput: {
+      tasksSynced: 3,
+      targetList: "Microsoft To Do &bull; Sprint 44",
+      syncStatus: "Success (100% Idempotent)",
+      auditLog: "MS Graph API status 201 Created for all action items",
+    },
+  },
+];
+
 export default function AgentWorkflowSimulator() {
   const [activePreset, setActivePreset] = useState<number>(0);
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [currentNodeIndex, setCurrentNodeIndex] = useState<number>(-1);
   const [executionLogs, setExecutionLogs] = useState<string[]>([]);
 
-  const presets = [
-    {
-      title: "TaxMate: Multi-Agent Tax Advisory & Filing",
-      userQuery: "Evaluate Form 16 vs 26AS for AY2026-27 and recommend the optimal tax regime.",
-      nodes: [
-        {
-          id: "intake",
-          name: "User Request Ingestion",
-          role: "Gateway",
-          thought: "Sanitizing user query, verifying authenticated session, validating document tokens.",
-          toolCall: "session_verifier(user_id='USR_882', doc_ids=['F16_A', '26AS'])",
-        },
-        {
-          id: "orchestrator",
-          name: "LangGraph Orchestrator",
-          role: "State Router",
-          thought: "Decomposing task: Route to Extraction -> Deterministic Math Engine -> RAG Advisor.",
-          toolCall: "state_graph.route(state='EXTRACTION_AND_MATH')",
-        },
-        {
-          id: "research",
-          name: "Extraction & Retrieval Agent",
-          role: "Document Parser",
-          thought: "Parsed Form 16 salary (INR 14,50,000) and verified INR 1,82,000 TDS deposited in Form 26AS.",
-          toolCall: "pdf_extractor(mode='structured_pydantic')",
-        },
-        {
-          id: "analysis",
-          name: "Deterministic Tax Engine",
-          role: "Math Engine",
-          thought: "Computing Old vs New regime: Old Tax = INR 1,64,320; New Tax (115BAC) = INR 1,40,400. Delta: Savings of INR 23,920 under New Regime.",
-          toolCall: "tax_rules.evaluate_slabs(income=1450000, deductions_80c=150000)",
-        },
-        {
-          id: "response",
-          name: "Response Synthesizer",
-          role: "Artifact Generator",
-          thought: "Compiling comprehensive comparative summary and generating official ITR-1 JSON schema.",
-          toolCall: "schema_generator.compile_itr1(status='OPTIMAL_NEW_REGIME')",
-        },
-      ],
-      finalOutput: {
-        recommendedRegime: "New Tax Regime (Section 115BAC)",
-        taxLiability: "₹1,40,400 (inclusive of 4% Health & Education Cess)",
-        estimatedTaxSavings: "₹23,920 over Old Regime",
-        schemaStatus: "Validated against official ITD e-filing JSON specifications",
-      },
-    },
-    {
-      title: "Teams Intelligence: Thread to Task Sync",
-      userQuery: "Scan #core-engineering channel history from yesterday and sync all action items to Microsoft To Do.",
-      nodes: [
-        {
-          id: "intake",
-          name: "Teams Query Receiver",
-          role: "Trigger",
-          thought: "Received scheduled daily trigger to parse channel ID: ch-9941 (Engineering Release).",
-          toolCall: "ms_graph.get_delta_messages(channel_id='ch-9941', lookback_hours=24)",
-        },
-        {
-          id: "orchestrator",
-          name: "Conversation Orchestrator",
-          role: "Thread Parser",
-          thought: "Cleaned 48 raw Teams messages, filtered chat banter, constructed chronological reply hierarchies.",
-          toolCall: "thread_sanitizer.parse_replies(raw_messages=48)",
-        },
-        {
-          id: "research",
-          name: "Action Item Extractor",
-          role: "Semantic AI",
-          thought: "Extracted 3 actionable commitments: [1] Fix Swagger auth headers, [2] Benchmark LlamaGuard, [3] Deploy staging build.",
-          toolCall: "nlp.extract_action_items(confidence_threshold=0.88)",
-        },
-        {
-          id: "analysis",
-          name: "Priority & Assignee Resolver",
-          role: "Entity Matcher",
-          thought: "Mapped user tags (@alex, @priya) to Azure AD email accounts and assigned due dates.",
-          toolCall: "azure_ad.resolve_users(tags=['@alex', '@priya'])",
-        },
-        {
-          id: "response",
-          name: "Microsoft To Do Sync Agent",
-          role: "Task Writer",
-          thought: "Injected 3 prioritized tasks into Microsoft To Do with deep links back to Teams conversation.",
-          toolCall: "ms_graph.create_todo_tasks(count=3, list='Sprint 44')",
-        },
-      ],
-      finalOutput: {
-        tasksSynced: 3,
-        targetList: "Microsoft To Do &bull; Sprint 44",
-        syncStatus: "Success (100% Idempotent)",
-        auditLog: "MS Graph API status 201 Created for all action items",
-      },
-    },
-  ];
-
-  const currentPreset = presets[activePreset];
+  const currentPreset = PRESETS[activePreset];
 
   // Automated step progression when running
   useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (isRunning && currentNodeIndex < currentPreset.nodes.length) {
-      const step = currentPreset.nodes[currentNodeIndex];
+    if (!isRunning || currentNodeIndex < 0) return;
+
+    if (currentNodeIndex >= currentPreset.nodes.length) {
+      setIsRunning(false);
       setExecutionLogs((prev) => [
         ...prev,
-        `[${new Date().toLocaleTimeString()}] [${step.role}] ${step.thought}`,
-        `[TOOL_CALL] > ${step.toolCall}`,
+        `[COMPLETED] Workflow executed successfully. Output artifact synthesized.`,
       ]);
-
-      timer = setTimeout(() => {
-        if (currentNodeIndex + 1 < currentPreset.nodes.length) {
-          setCurrentNodeIndex((prev) => prev + 1);
-        } else {
-          setIsRunning(false);
-          setExecutionLogs((prev) => [
-            ...prev,
-            `[COMPLETED] Workflow executed successfully. Output artifact synthesized.`,
-          ]);
-        }
-      }, 1600);
+      return;
     }
+
+    const step = currentPreset.nodes[currentNodeIndex];
+    setExecutionLogs((prev) => [
+      ...prev,
+      `[${new Date().toLocaleTimeString()}] [${step.role}] ${step.thought}`,
+      `[TOOL_CALL] > ${step.toolCall}`,
+    ]);
+
+    const timer = setTimeout(() => {
+      setCurrentNodeIndex((prev) => prev + 1);
+    }, 1500);
+
     return () => clearTimeout(timer);
-  }, [isRunning, currentNodeIndex, currentPreset]);
+  }, [isRunning, currentNodeIndex, activePreset]);
 
   const handleStart = () => {
     setExecutionLogs([
@@ -179,7 +181,7 @@ export default function AgentWorkflowSimulator() {
             SELECT WORKFLOW SCENARIO
           </span>
           <div className="flex flex-wrap gap-2 mt-1.5">
-            {presets.map((p, idx) => (
+            {PRESETS.map((p, idx) => (
               <button
                 key={p.title}
                 onClick={() => {
@@ -232,7 +234,7 @@ export default function AgentWorkflowSimulator() {
         {/* Horizontal Node Sequence */}
         <div className="grid grid-cols-1 sm:grid-cols-5 gap-3">
           {currentPreset.nodes.map((node, index) => {
-            const isCompleted = currentNodeIndex > index || (currentNodeIndex === currentPreset.nodes.length - 1 && !isRunning && executionLogs.length > 3);
+            const isCompleted = currentNodeIndex > index || (!isRunning && currentNodeIndex >= currentPreset.nodes.length);
             const isActive = currentNodeIndex === index && isRunning;
             const isPending = currentNodeIndex < index;
 
@@ -337,7 +339,7 @@ export default function AgentWorkflowSimulator() {
         </div>
 
         {/* Synthesized Output Banner when completed */}
-        {currentNodeIndex === currentPreset.nodes.length - 1 && !isRunning && executionLogs.length > 3 && (
+        {!isRunning && currentNodeIndex >= currentPreset.nodes.length && executionLogs.length > 3 && (
           <div className="mt-3 p-3 rounded-xl bg-emerald-950/30 border border-emerald-500/40 animate-in fade-in duration-300 space-y-1">
             <span className="text-[10px] font-mono text-emerald-400 font-bold uppercase flex items-center gap-1">
               <CheckCircle2 className="w-3.5 h-3.5" /> SYNTHESIZED STATE ARTIFACT
